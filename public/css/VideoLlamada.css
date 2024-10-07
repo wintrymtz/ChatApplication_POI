@@ -1,0 +1,197 @@
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Contenedor principal de la videollamada */
+.videocall-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1c1e21;
+    padding: 10px;
+    border-radius: 10px;
+    width: 80%;
+    height: 60%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.video-box {
+    position: relative;
+    width: 48%;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.username-tag {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Controles de la videollamada */
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.control-btn {
+    background-color: #3a3b3c;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.control-btn:hover {
+    background-color: #555657;
+}
+
+/* Iconos generales */
+.icon {
+    position: relative;
+    width: 30px;
+    height: 30px;
+}
+
+/* Icono de micrófono */
+.mic-icon {
+    position: relative;
+}
+
+.mic-body {
+    width: 12px;
+    height: 18px;
+    background-color: #fff;
+    border-radius: 6px;
+    position: absolute;
+    top: 2px;
+    left: 9px;
+}
+
+.mic-base {
+    width: 20px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 2px;
+    position: absolute;
+    bottom: 4px;
+    left: 5px;
+}
+
+#mute-btn.active .slash {
+    display: block;
+}
+
+.slash {
+    display: none;
+    position: absolute;
+    width: 2px;
+    height: 30px;
+    background-color: red;
+    transform: rotate(45deg);
+    top: 0;
+    left: 14px;
+}
+
+/* Icono de cámara */
+.camera-icon {
+    position: relative;
+}
+
+.camera-body {
+    width: 20px;
+    height: 14px;
+    background-color: #fff;
+    border-radius: 2px;
+    position: absolute;
+    top: 8px;
+    left: 5px;
+}
+
+.camera-lens {
+    width: 6px;
+    height: 6px;
+    background-color: #3a3b3c;
+    border-radius: 50%;
+    position: absolute;
+    top: 11px;
+    left: 12px;
+}
+
+.camera-stand {
+    width: 4px;
+    height: 4px;
+    background-color: #fff;
+    border-radius: 1px;
+    position: absolute;
+    bottom: 4px;
+    left: 13px;
+}
+
+.camera-detail {
+    width: 8px;
+    height: 6px;
+    background-color: #fff;
+    border-radius: 2px;
+    position: absolute;
+    top: 10px;
+    left: -4px;
+}
+
+/* Icono de finalizar llamada */
+.phone-icon {
+    width: 30px;
+    height: 14px;
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
+    position: relative;
+    transform: rotate(135deg);
+}
+
+#end-call-btn {
+    background-color: #f02849;
+}
+
+#end-call-btn:hover {
+    background-color: #c52235;
+}
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Interface Adorable</title>
+    <link rel="stylesheet" href="css/estilo prueba1.css">
+</head>
+
+<body>
+    <div class="chat-container">
+        <div class="sidebar">
+            <div class="menu">
+                <!-- <div class="menu-item">
+                    <span class="icon">🏠</span>
+                    Inicio
+                </div> -->
+                <div class="menu-item">
+                    <span class="icon">👥</span>
+                    Grupos
+                </div>
+                <div class="menu-item">
+                    <span class="icon">👤</span>
+                    Perfil
+                </div>
+                <div class="menu-item">
+                    <span class="icon">🔔</span>
+                    Tareas
+                </div>
+                <div class="menu-item">
+                    <span class="icon">🎯</span>
+                    Desafíos
+                </div>
+                <div class="menu-item">
+                    <span class="icon">🚪</span>
+                    Cerrar Sesion
+                </div>
+
+
+            </div>
+            <div class="separator"></div>
+            <div class="contacts">
+                <div class="contact-item">
+                    <img src="Images/profile1.jpg" alt="Liam Brown">
+                    Liam
+                </div>
+                <div class="contact-item">
+                    <img src="Images/profile2.jpg" alt="Emily Jonson">
+                    Emily Jonson
+                </div>
+                <div class="contact-item">
+                    <img src="Images/profile3.jpg" alt="Sophia Martinez">
+                    Sophia Martinez
+                </div>
+                <div class="contact-item">
+                    <img src="Images/profile4.jpg" alt="Noah Wilson">
+                    Noah Wilson
+                </div>
+            </div>
+        </div>
+        <div class="chat-content">
+            <div class="chat-header">
+                <div class="chat-title">
+                    <img src="Images/profile-genius.jpg" alt="Code Genius" class="header-icon">
+                    Nombre de Perfil del que esta hablando
+                </div>
+            </div>
+            <div class="chat-messages">
+                <div class="message received">
+                    <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                    Hola
+                </div>
+                <div class="message sent">
+                    <img src="Images/profile-user.jpg" alt="You" class="message-icon">
+                    Hola, como estas?
+                </div>
+                <div class="message received">
+                    <!-- <img src="Images/profile-ava.jpg" alt="Ava" class="message-icon"> -->
+                    <div class="name"></div>
+                    <div class="text">
+                        Hola, de que hablan?
+                    </div>
+                </div>
+            </div>
+            <div class="chat-input">
+                <input id="message-input" type="text" placeholder="Escribe un mensaje...">
+                <button id="send-message">Enviar</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script type="text/javascript" src="socket.io/socket.io.js"></script>
+<script type="text/javascript" src="js/chat.js"></script>
+
+</html>

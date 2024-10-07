@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Videollamada</title>
+    <link rel="stylesheet" href="css/VideoLlamada.css">
+</head>
+
+<body>
+    <!-- Contenedor principal para la videollamada -->
+    <div class="videocall-container">
+        <!-- Video del usuario local -->
+        <div class="video-box local-video">
+            <video id="user-1" autoplay></video>
+            <div class="username-tag">Tu Nombre</div>
+        </div>
+        <!-- Video de la otra persona -->
+        <div class="video-box remote-video">
+            <video id="user-2" autoplay></video>
+            <div class="username-tag">Nombre del Contacto</div>
+        </div>
+    </div>
+
+    <!-- Controles de la videollamada -->
+    <div class="controls">
+        <!-- Botón de silenciar/activar micrófono -->
+        <button class="control-btn" id="mute-btn">
+            <div class="icon mic-icon">
+                <div class="mic-body"></div>
+                <div class="mic-base"></div>
+                <!-- Línea diagonal para indicar silencio -->
+                <div class="slash"></div>
+            </div>
+        </button>
+
+        <!-- Botón de activar/desactivar cámara -->
+        <button class="control-btn" id="camera-btn">
+            <div class="icon camera-icon">
+                <div class="camera-body"></div>
+                <div class="camera-lens"></div>
+                <div class="camera-stand"></div>
+                <div class="camera-detail"></div>
+            </div>
+        </button>
+
+        <!-- Botón de finalizar llamada -->
+        <button class="control-btn" id="end-call-btn">
+            <div class="icon phone-icon"></div>
+        </button>
+    </div>
+</body>
+<script src="js/agora-rtm-sdk-1.5.1.js"></script>
+<script src="js/videcallScript.js"></script>
+
+</html>

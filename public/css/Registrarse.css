@@ -1,0 +1,87 @@
+/* Estilos generales para el cuerpo */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f4eb; /* Color de fondo claro */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/* Estilo del contenedor principal */
+.login-container, .register-container {
+    background-color: #e6e2d9; /* Color de fondo del contenedor */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    text-align: center;
+}
+
+/* Estilo del título */
+h1 {
+    color: #4b5a8a; /* Color azul del título */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* Estilo para los grupos de entrada */
+.input-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+/* Estilo para las etiquetas */
+label {
+    color: #4b5a8a;
+    font-size: 14px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilo para los campos de entrada */
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Estilo para el botón */
+button {
+    background-color: #4b5a8a; /* Color azul del botón */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    font-size: 16px;
+}
+
+/* Cambiar el color del botón al pasar el ratón */
+button:hover {
+    background-color: #3b4870;
+}
+
+/* Estilo para el enlace */
+p {
+    font-size: 14px;
+    color: #4b5a8a;
+}
+
+/* Estilo para el enlace de registro/login */
+a {
+    color: #4b5a8a;
+    text-decoration: none;
+}
+
+/* Cambiar el color del enlace al pasar el ratón */
+a:hover {
+    text-decoration: underline;
+}
