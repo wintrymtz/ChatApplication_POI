@@ -10,6 +10,7 @@ console.log('Servidor iniciado');
 
 const db = require('./database.js');
 const userMod = require('./UserModule.js');
+const { URLSearchParams } = require("url");
 
 app.use(express.static(path.join(__dirname + "/public")));
 
@@ -48,9 +49,11 @@ app.post('/registrar-usuario', (req, res) => {
 });
 
 // GET method route
-app.get('/getUser', (req, res) => {
+app.get('/get-user', (req, res) => {
     let newUser = req.body;
-    db.findUser(newUser['email']);
+    // userMod.findUser(newUser['email']);
+    // userMod.findUser('josejaime.delosriosm@gmail.com');
+    console.log('yes');
     res.send('usuario encontrado')
 })
 

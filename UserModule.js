@@ -11,7 +11,7 @@ const usuarioMod = {
     },
 
     findUser: function (_email) {
-        db.query(`select * from Usuario where '${_email}' = email`,
+        db.query(`select * from Usuario where '${_email}' = correo`,
             (error, result, fields) => {
                 console.log(error);
                 console.log(result);
