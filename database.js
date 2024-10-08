@@ -1,4 +1,4 @@
-const mysql = require("mysql2");
+const mysql = require("mysql2/promise");
 const config = {
     host: "localhost",
     database: "BD_POI",

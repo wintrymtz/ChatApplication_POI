@@ -33,14 +33,14 @@ io.on("connection", function (socket) {
 //SOLICITUDES
 app.post('/registrar-usuario', (req, res) => {
     let newUser = req.body;
-    // Save the data of user that was sent by the client
+    // Guardar información mandada del cliente
     userMod.registrarUsuario(
         newUser['name'],
         newUser['email'],
         newUser['username'],
         newUser['password'],);
-    // Send a response to client that will show that the request was successfull.
-    console.log(newUser['name']);
+
+    // console.log(newUser['name']);
 
     res.send({
         message: 'se registró correctamente',
@@ -48,13 +48,23 @@ app.post('/registrar-usuario', (req, res) => {
     })
 });
 
-// GET method route
-app.get('/get-user', (req, res) => {
-    let newUser = req.body;
-    // userMod.findUser(newUser['email']);
+app.post('/login', async (req, res) => {
+    let validation = req.body;
+
+    let user = await userMod.findUser(validation['email']);
+
+    if (user === undefined) {
+        res.send({ message: "User doesn't exist" });
+        return;
+    }
+    //validamos la contraseña
+    if (user['contrasena'] !== validation['password']) {
+        res.send({ message: 'User exist, no valid credentials' });
+    }
+    else {
+        res.send(user);
+    }
     // userMod.findUser('josejaime.delosriosm@gmail.com');
-    console.log('yes');
-    res.send('usuario encontrado')
 })
 
 server.listen(4000);
