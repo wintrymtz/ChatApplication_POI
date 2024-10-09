@@ -1,13 +1,14 @@
 const db = require('./database.js');
 
 const usuarioMod = {
-    registrarUsuario: function (_name, _email, _username, _password) {
-        db.query(`insert into Usuario(nombreUsuario, correo, ApellidoUsuario, contrasena)
-            VALUES ('${_name}', '${_email}', '${_username}', '${_password}')`, (error, result, fields) => {
-            console.log(error);
-            console.log(result);
-            console.log(fields);
-        });
+    registrarUsuario: async function (_name, _email, _username, _password) {
+        try {
+            const [rows] = await db.execute(`insert into Usuario(nombreUsuario, correo, ApellidoUsuario, contrasena)
+            VALUES ('${_name}', '${_email}', '${_username}', '${_password}')`);
+            console.log(rows)
+        } catch (error) {
+            console.error("Error en la consulta:", error);
+        }
     },
 
     findUser: async function (_email) {

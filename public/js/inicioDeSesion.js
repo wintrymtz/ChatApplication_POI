@@ -7,14 +7,13 @@ formulario.addEventListener("submit", (event) => {
 function iniciarSesion() {
     let user = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    localStorage.removeItem("user");
-    localStorage.setItem("user", user);
+    // localStorage.removeItem("user");
+    // localStorage.setItem("user", user);
 
     if (formulario.checkValidity()) {
         serverFindUser(user, password);
     }
 
-    // window.location.href = "chat.html";
 }
 
 
@@ -31,6 +30,16 @@ async function serverFindUser(_email, _password) {
         body: JSON.stringify(currentUser),
         headers: myHeaders,
     })
+    let res = await response.json();
 
-    console.log(await response.json());
+    switch (res['success']) {
+        case true:
+            console.log('INICIADO SESION :)');
+            window.location.href = "chat.html";
+            break;
+        case false:
+            alert(res['message']);
+            break;
+    }
+
 }

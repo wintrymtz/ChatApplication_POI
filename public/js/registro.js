@@ -25,18 +25,14 @@ function registrarse() {
     // console.log(user);
 }
 
-function serverRegistrar(_user) {
+async function serverRegistrar(_user) {
     const myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
 
-    fetch("/registrar-usuario", {
+    const response = await fetch("/registrar-usuario", {
         method: "POST",
         body: JSON.stringify(_user),
         headers: myHeaders,
-    }).then(response => {
-        console.log(response.data);
     })
-        .catch(error => {
-            console.log(error);
-        });
+    let res = await response.json(response);
 }

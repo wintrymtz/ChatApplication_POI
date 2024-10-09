@@ -1,14 +1,38 @@
-let localUser = localStorage.getItem("user");
+// let localUser = localStorage.getItem("user");
 let roomId = 1;
 
+async function getChatRoom(my_email, contact_email) {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
 
-(function () {
+    const response = await fetch("/getChat", {
+        method: "POST",
+        body: JSON.stringify(data = {
+            user: my_email,
+            contact: contact_email
+        }),
+        headers: myHeaders,
+    })
+
+    let res = await response.json();
+    console.log(res);
+    return res['chatId'];
+}
+
+(async function () {
     const app = document.querySelector(".chat-content");
     console.log('inició correctamente el chat');
     const socket = io();
 
-    roomId = prompt('Ingrese numero de sala');
-    let uname
+    // roomId = prompt('Ingrese numero de sala');
+    // my_email = prompt('ingrese su correo');
+    my_email = '';
+    contact_email = prompt('ingrese el correo del contacto');
+    roomId = await getChatRoom(my_email, contact_email);
+    console.log(roomId);
+    let uname;
+
+    joinRoom();
 
     // app.querySelector(".join-screen #join-user").addEventListener("click", function () {
     //     let username = app.querySelector(".join-screen #username").value;
@@ -21,17 +45,26 @@ let roomId = 1;
     //     app.querySelector(".chat-screen").classList.remove("active");
     // })
 
-    document.addEventListener("DOMContentLoaded", () => {
-        // let username = app.querySelector(".join-screen #username").value;
-        let username = localUser;
+    function joinRoom() {
+        let username = 'wintry';
         if (username.lenght == 0) {
             return;
         }
+        console.log('se intenta unir a la sala:' + roomId);
         socket.emit("joinRoom", username, roomId);
         uname = username;
-        //     app.querySelector(".join-screen").classList.remove("active");
-        //     app.querySelector(".chat-screen").classList.remove("active");
-    });
+    }
+    // document.addEventListener("DOMContentLoaded", () => {
+    //     // let username = app.querySelector(".join-screen #username").value;
+    //     let username = 'wintry';
+    //     if (username.lenght == 0) {
+    //         return;
+    //     }
+    //     socket.emit("joinRoom", username, roomId);
+    //     uname = username;
+    //     //     app.querySelector(".join-screen").classList.remove("active");
+    //     //     app.querySelector(".chat-screen").classList.remove("active");
+    // });
 
     app.querySelector(".chat-input #send-message").addEventListener("click", function () {
         let message = app.querySelector(".chat-content #message-input").value;
@@ -71,7 +104,8 @@ let roomId = 1;
             // el.setAttribute("class", "message my-message");
             el.setAttribute("class", "message sent");
             el.innerHTML = `
-                <div class="name">You--</div>
+                <!-- <div class="name">You--</div> -->
+                <img src="Images/profile-user.jpg" alt="You" class="message-icon">
                 <div class="text">${message.text}</div> 
             `;
             messageContainer.appendChild(el);
@@ -79,7 +113,9 @@ let roomId = 1;
             let el = document.createElement("div");
             el.setAttribute("class", "message received");
             el.innerHTML = `
-                <div class="name">${message.username}--</div>
+                <!-- <div class="name">${message.username}--</div> -->
+                     <img src="Images/profile-ava.jpg" alt="Ava" class="message-icon">
+
                 <div class="text">${message.text}</div> 
             `;
             messageContainer.appendChild(el);
