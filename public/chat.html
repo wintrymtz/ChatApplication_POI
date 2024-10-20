@@ -5,42 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chat Interface Adorable</title>
-    <link rel="stylesheet" href="css/estilo prueba1.css">
+    <link rel="stylesheet" href="css/CHAT 6.0.CSS">
+
+
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person_search" />
 </head>
 
 <body>
+
+
+
     <div class="chat-container">
         <div class="sidebar">
-            <div class="menu">
-                <!-- <div class="menu-item">
-                    <span class="icon">🏠</span>
-                    Inicio
-                </div> -->
-                <div class="menu-item">
-                    <span class="icon">👥</span>
-                    Grupos
-                </div>
-                <div class="menu-item">
-                    <span class="icon">👤</span>
-                    Perfil
-                </div>
-                <div class="menu-item">
-                    <span class="icon">🔔</span>
-                    Tareas
-                </div>
-                <div class="menu-item">
-                    <span class="icon">🎯</span>
-                    Desafíos
-                </div>
-                <div class="menu-item">
-                    <span class="icon">🚪</span>
-                    Cerrar Sesion
-                </div>
-
-
+            <div id="right-button" class="right-button">
+                <span class="icon2 material-symbols-outlined" style="font-size: 50px; width: 60px; height: 60px;">
+                    person_search
+                </span>
             </div>
-            <div class="separator"></div>
-            <div id="list-contact" class="contacts">
+            <div id="contact-list" class="contacts">
                 <div class="contact-item">
                     <img src="Images/profile1.jpg" alt="Liam Brown">
                     Liam
@@ -58,40 +41,142 @@
                     Noah Wilson
                 </div>
             </div>
+            <div class="separator"></div>
+            <div class="menu">
+                <div class="menu-item">
+                    <span class="icon">🏠</span>
+                    Inicio
+                </div>
+                <div class="menu-item">
+                    <span class="icon">👥</span>
+                    Grupos
+                </div>
+                <div class="menu-item">
+                    <span class="icon">👤</span>
+                    Perfil
+                </div>
+                <div class="menu-item" id="rewards">
+                    <span class="icon">🏆</span>
+                    Recompensas
+                </div>
+            </div>
+            <div class="menu-item">
+                <p id="current-user">Usuario actual</p>
+            </div>
+            <div class="menu-item" id="logout">
+                <span class="icon">🚪</span>
+                Cerrar Sesión
+            </div>
+
         </div>
         <div class="chat-content">
-            <div id="contact-name" class="chat-header">
-                <div class="chat-title">
+            <div class="chat-header">
+                <div id="contact-name" class="chat-title">
                     <img src="Images/profile-genius.jpg" alt="Code Genius" class="header-icon">
-                    Nombre de Perfil del que esta hablando
+                    Nombre de Perfil del que está hablando
                 </div>
             </div>
             <div class="chat-messages">
-                <!-- <div class="message received">
-                    <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
-                    Hola
-                </div> -->
-                <!-- <div class="message sent">
-                    <img src="Images/profile-user.jpg" alt="You" class="message-icon">
-                    Hola, como estas?
-                </div> -->
-                <div class="message received">
-                    <!-- <img src="Images/profile-ava.jpg" alt="Ava" class="message-icon"> -->
-                    <div class="name"></div>
-                    <div class="text">
-                        Hola, de que hablan?
+                <!-- <div class="message-container">
+                    <div class="message received">
+                        <div class="user-info">
+                            <span class="message-username">Code Genius</span>
+                            <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                        </div>
+                        <p>Hola</p>
                     </div>
                 </div>
+                <div class="message-container">
+                    <div class="message sent">
+                        <div class="user-info">
+                            <span class="message-username">Tú</span>
+                            <img src="Images/profile-user.jpg" alt="You" class="message-icon">
+                        </div>
+                        <p>Hola, ¿cómo estás?</p>
+                    </div>
+                </div>
+                <div class="message-container">
+                    <div class="message received">
+                        <div class="user-info">
+                            <span class="message-username">Ava</span>
+                            <img src="Images/profile-ava.jpg" alt="Ava" class="message-icon">
+                        </div>
+                        <p>Hola, ¿de qué hablan?</p>
+                    </div>
+                </div> -->
             </div>
             <div class="chat-input">
-                <input id="message-input" type="text" placeholder="Escribe un mensaje...">
+                <input type="text" placeholder="Escribe un mensaje..." id="message-input">
+                <button id="emoji-btn">😊</button> <!-- Botón de emojis -->
                 <button id="send-message">Enviar</button>
+                <button id="upload-btn">📎</button> <!-- Botón para enviar archivos -->
+                <div id="emoji-picker" class="emoji-picker">
+                    <span class="emoji">😊</span>
+                    <span class="emoji">😂</span>
+                    <span class="emoji">❤️</span>
+                    <span class="emoji">👍</span>
+                    <span class="emoji">🎉</span>
+                    <span class="emoji">😢</span>
+                </div>
+            </div>
+        </div>
+        <div id="right-menu" class="right-menu">
+            <div class="right-title">
+                <h2>Buscar Usuarios</h2>
+            </div>
+            <div class="search-bar">
+                <input id="search-input" type="text" placeholder="Buscar contacto...">
+                <div class="search-results" id="search-results">
+                    <!-- <div class="s_result">
+                        <img src="Images/profile1.jpg" alt="Liam Brown">
+                        <p>josejaime de los rios martinez</p>
+                    </div> -->
+                </div>
             </div>
         </div>
     </div>
+
+    <script>
+        // Mostrar/Ocultar el selector de emojis
+        document.getElementById("emoji-btn").addEventListener("click", function () {
+            const emojiPicker = document.getElementById("emoji-picker");
+            emojiPicker.style.display = emojiPicker.style.display === "block" ? "none" : "block";
+        });
+
+        // Insertar emoji en el campo de texto
+        document.querySelectorAll(".emoji").forEach(function (emoji) {
+            emoji.addEventListener("click", function () {
+                const messageInput = document.getElementById("message-input");
+                messageInput.value += emoji.textContent;
+            });
+        });
+
+        // Ocultar el selector de emojis al hacer clic fuera
+        document.addEventListener("click", function (event) {
+            const emojiPicker = document.getElementById("emoji-picker");
+            const emojiBtn = document.getElementById("emoji-btn");
+            if (!emojiPicker.contains(event.target) && !emojiBtn.contains(event.target)) {
+                emojiPicker.style.display = "none";
+            }
+        });
+
+        document.getElementById('right-button').addEventListener('click', () => {
+            const rightMenu = document.getElementById('right-menu');
+
+            // Cambia la visibilidad del menú
+            if (rightMenu.style.display == 'block') {
+                rightMenu.style.display = 'none'; // Ocultar si está visible
+            } else {
+                rightMenu.style.display = 'block'; // Mostrar si está oculto
+            }
+
+            console.log(rightMenu.style);
+        })
+    </script>
+
+    <script type="module" src="socket.io/socket.io.js"></script>
+    <script type="module" src="js/chat.js"></script>
+    <script type="module" src="js/listUsers.js"></script>
 </body>
-<script type="text/javascript" src="socket.io/socket.io.js"></script>
-<script type="text/javascript" src="js/chat.js"></script>
-<script type="text/javascript" src="js/listUsers.js"></script>
 
 </html>

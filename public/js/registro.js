@@ -34,5 +34,12 @@ async function serverRegistrar(_user) {
         body: JSON.stringify(_user),
         headers: myHeaders,
     })
-    let res = await response.json(response);
+    let res = await response.json();
+
+    if (res['success']) {
+        alert(res['message']);
+        window.location.href = '/';
+    } else {
+        alert(res['message']);
+    }
 }

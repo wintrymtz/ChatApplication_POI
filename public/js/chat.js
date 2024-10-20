@@ -1,5 +1,5 @@
 // let localUser = localStorage.getItem("user");
-let roomId = 1;
+import socketData from "./socket.js";
 
 async function getChatRoom(my_email, contact_email) {
     const myHeaders = new Headers();
@@ -22,14 +22,14 @@ async function getChatRoom(my_email, contact_email) {
 (async function () {
     const app = document.querySelector(".chat-content");
     console.log('inició correctamente el chat');
-    const socket = io();
+    // socket = io();
 
     // roomId = prompt('Ingrese numero de sala');
     // my_email = prompt('ingrese su correo');
-    my_email = '';
-    contact_email = prompt('ingrese el correo del contacto');
-    roomId = await getChatRoom(my_email, contact_email);
-    console.log(roomId);
+    let my_email = '';
+    // contact_email = prompt('ingrese el correo del contacto');
+    // roomId = await getChatRoom(my_email, contact_email);
+    console.log(socketData.roomId);
     let uname;
 
     joinRoom();
@@ -50,8 +50,8 @@ async function getChatRoom(my_email, contact_email) {
         if (username.lenght == 0) {
             return;
         }
-        console.log('se intenta unir a la sala:' + roomId);
-        socket.emit("joinRoom", username, roomId);
+        console.log('se intenta unir a la sala:' + socketData.roomId);
+        // socketData.socket.emit("joinRoom", username, socketData.roomId);
         uname = username;
     }
     // document.addEventListener("DOMContentLoaded", () => {
@@ -77,48 +77,61 @@ async function getChatRoom(my_email, contact_email) {
             username: uname,
             text: message
         });
-        socket.emit("chat", {
-            username: uname,
+        console.log(socketData.roomId);
+        socketData.socket.emit("chat", {
+            username: socketData.username,
             text: message
-        }, roomId);
+        }, socketData.roomId);
         app.querySelector(".chat-content #message-input").value = "";
     });
 
     function changed() {
-        socket.emit("exituser", uname);
+        socketData.socket.emit("exituser", uname);
         window.location.href = window.location.href;
     }
 
-    socket.on("update", function (update) {
+    socketData.socket.on("update", function (update, _roomId) {
         renderMessage("update", update);
     });
 
-    socket.on("chat", function (message) {
+    socketData.socket.on("chat", function (message) {
         renderMessage("other", message);
     });
 
     function renderMessage(type, message) {
         let messageContainer = app.querySelector(".chat-content .chat-messages");
         if (type == "my") {
+            let container = document.createElement("div");
+            container.setAttribute('class', 'message-container');
+
             let el = document.createElement("div");
             // el.setAttribute("class", "message my-message");
             el.setAttribute("class", "message sent");
             el.innerHTML = `
                 <!-- <div class="name">You--</div> -->
-                <img src="Images/profile-user.jpg" alt="You" class="message-icon">
-                <div class="text">${message.text}</div> 
+                 <div class="user-info">
+                            <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                        </div>
+                        <p>${message.text}</p>
             `;
-            messageContainer.appendChild(el);
+            container.appendChild(el);
+            messageContainer.appendChild(container);
         } else if (type == "other") {
+            let container = document.createElement("div");
+            container.setAttribute('class', 'message-container');
+
             let el = document.createElement("div");
             el.setAttribute("class", "message received");
             el.innerHTML = `
-                <!-- <div class="name">${message.username}--</div> -->
-                     <img src="Images/profile-ava.jpg" alt="Ava" class="message-icon">
-
-                <div class="text">${message.text}</div> 
+                  <div class="user-info">
+                            <span class="message-username">${message.username}</span>
+                            <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                        </div>
+                        <p>${message.text}</p>
             `;
-            messageContainer.appendChild(el);
+
+            container.appendChild(el);
+            messageContainer.appendChild(container);
 
         } else if (type == "update") {
             let el = document.createElement("div");
