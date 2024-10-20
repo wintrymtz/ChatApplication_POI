@@ -1,0 +1,155 @@
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #fef6e4; /* Color de fondo claro */
+}
+
+.task-container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background: linear-gradient(to bottom, #2b3a67, #47568c); /* Gradiente de colores */
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-right: 5px solid #1e2b4a;
+}
+
+.menu {
+    flex-grow: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.menu-item:hover {
+    color: #ff69b4; /* Color al pasar el ratón */
+}
+
+.menu-item.active {
+    color: #ff69b4; /* Color activo para la opción de recompensas */
+    font-size: 20px; /* Aumenta el tamaño de la fuente para destacar */
+    border-bottom: 2px solid #ff69b4; /* Añade un subrayado */
+}
+
+.separator {
+    border-top: 1px solid #ff69b4; /* Separador de colores */
+    margin: 20px 0;
+}
+
+.contacts {
+    margin-bottom: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.contact-item:hover {
+    transform: scale(1.05); /* Aumenta ligeramente al pasar el ratón */
+}
+
+.contact-item img {
+    width: 35px; /* Aumenta el tamaño de la imagen */
+    height: 35px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#logout {
+    margin-top: auto;
+}
+
+.task-content {
+    flex-grow: 1;
+    background-color: #f4f5fa; /* Fondo suave para el contenido */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra para el contenedor */
+}
+
+h2 {
+    color: #2b3a67; /* Color del título */
+    text-align: center;
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.reward-content {
+    background-color: #ffffff; /* Fondo blanco para el contenido de recompensas */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra para el contenedor */
+}
+
+.username {
+    color: #2b3a67; /* Color del nombre de usuario */
+    text-align: center;
+    margin-bottom: 20px; /* Espaciado inferior */
+    font-size: 28px; /* Tamaño grande para el nombre de usuario */
+}
+
+label {
+    font-size: 18px;
+    color: #2b3a67; /* Color de las etiquetas */
+    margin-top: 20px; /* Espaciado superior */
+}
+
+select {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #2b3a67; /* Bordes con color */
+    width: 100%;
+    margin-top: 5px; /* Espaciado superior */
+}
+
+.points-details {
+    margin-top: 20px; /* Espaciado superior */
+    margin-bottom: 20px; /* Espaciado inferior */
+}
+
+.points-item {
+    margin-bottom: 10px; /* Espaciado inferior */
+}
+
+button {
+    padding: 12px;
+    background-color: #ff69b4; /* Color rosa para el botón */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Transición para el efecto de movimiento */
+    width: 100%;
+}
+
+button:hover {
+    background-color: #e6398a; /* Color rosa más oscuro al pasar el ratón */
+    transform: translateY(-2px); /* Mueve hacia arriba al pasar el ratón */
+}
+
+#claim-btn {
+    background-color: #ffcc00; /* Color amarillo para el botón de reclamar */
+}
+
+#claim-btn:hover {
+    background-color: #e6b800; /* Color amarillo más oscuro al pasar el ratón */
+}

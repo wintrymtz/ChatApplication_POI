@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ventana de Tareas</title>
+    <link rel="stylesheet" href="TAREA 2.CSS">
+</head>
+<body>
+    <div class="task-container">
+        <div class="sidebar">
+            <div class="contacts">
+                <div class="contact-item">
+                    <img src="profile1.jpg" alt="Liam Brown"> 
+                    Liam
+                </div>
+                <div class="contact-item">
+                    <img src="profile2.jpg" alt="Emily Jonson">
+                    Emily Jonson
+                </div>
+                <div class="contact-item">
+                    <img src="profile3.jpg" alt="Sophia Martinez">
+                    Sophia Martinez
+                </div>
+                <div class="contact-item">
+                    <img src="profile4.jpg" alt="Noah Wilson">
+                    Noah Wilson
+                </div>
+            </div>
+            <div class="separator"></div>
+            <div class="menu">
+                <div class="menu-item">
+                    <span class="icon">🏠</span>
+                    Inicio
+                </div>
+                <div class="menu-item">
+                    <span class="icon">👥</span>
+                    Grupos
+                </div>
+                <div class="menu-item">
+                    <span class="icon">👤</span>
+                    Perfil
+                </div>
+                <div class="menu-item">
+                    <span class="icon">🔔</span>
+                    Notificaciones
+                </div>
+                <div class="menu-item">
+                    <span class="icon">📝</span>
+                    Tareas
+                </div>
+            </div>
+            <div class="menu-item" id="logout">
+                <span class="icon">🚪</span>
+                Cerrar Sesión
+            </div>
+        </div>
+
+        <div class="task-content">
+            <h2>Tareas</h2>
+            <div class="task-form">
+                <label for="task-title">Título de la tarea:</label>
+                <input type="text" id="task-title" placeholder="Escribe el título de la tarea...">
+                
+                <label for="task-desc">Descripción de la tarea:</label>
+                <textarea id="task-desc" placeholder="Escribe la descripción de la tarea..."></textarea>
+                
+                <label for="task-cost">¿Cuánto vale la tarea?</label>
+                <input type="text" id="task-cost" placeholder="Escribe el costo de la tarea...">
+                
+                <label for="task-deadline">¿Cuándo se cierra la tarea?</label>
+                <input type="date" id="task-deadline">
+                
+                <button id="submit-btn">Enviar</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

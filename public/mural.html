@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mural del Equipo</title>
+    <link rel="stylesheet" href="css/mural.css">
+</head>
+<body>
+
+    <div id="main-content">
+        <div id="header">
+            <h1>Equipo de POI</h1>
+            <button id="create-subgroup" onclick="mostrarFormularioSubgrupo()">Crear Subgrupo</button>
+        </div>
+
+        <div id="message-container">
+
+            <div id="general" class="Mural">
+
+                <div class="message">
+                    <p><strong>José De Los Rios</strong> - 15/10/2024 14:23</p><br>
+                    <p>Iniciaré la Comunicación 1 a 1.</p>
+                </div>
+
+                <div class="message">
+                    <p><strong>Azeneth Contreras</strong> - 16/10/2024 09:45</p><br>
+                    <p>Yo haré las pantallas faltantes.</p>
+                </div>
+            </div>
+
+            <!-- Sección Subgrupo -->
+            <div id="subgrupo" class="Mural" style="display: none;">
+                <div class="message">
+                    <p><strong>Guillermo Morin</strong> - 16/10/2024 11:00</p><br>
+                    <p>Yo continuaré con los querys.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Barra lateral (movida a la derecha) -->
+    <div id="sidebar">
+        <h3>Menú</h3>
+        <ul>
+            <li><a href="#" onclick="mostrarSeccion('general')">General</a></li>
+            <li><a href="crearTarea.html">Crear Tarea</a></li>
+            <li><a href="verTareas.html">Ver Tareas</a></li>
+            <li><a href="#" onclick="abrirCorreo()">Enviar Correo</a></li>
+            <li><a href="#" onclick="mostrarSeccion('subgrupo')">Subgrupo</a></li>
+        </ul>
+    </div>
+
+    <!-- Formulario para crear subgrupo con buscador -->
+    <div id="subgroup-form" style="display: none;">
+        <form>
+            <h3>Crear Subgrupo</h3>
+            <label for="subgroup-name">Nombre del Subgrupo:</label>
+            <input type="text" id="subgroup-name" placeholder="Nombre del subgrupo">
+
+            <label for="search-user">Buscar Miembro:</label>
+            <div class="search-container">
+                <input type="text" id="search-user" placeholder="Buscar usuario">
+                <button type="button" onclick="agregarMiembro()">Agregar</button>
+            </div>
+
+            <h4>Miembros del Subgrupo:</h4>
+            <ul id="miembros-list"></ul>
+
+            <button type="submit">Crear Subgrupo</button>
+            <button type="button" onclick="ocultarFormularioSubgrupo()">Cancelar</button>
+        </form>
+    </div>
+
+    <!-- Ventana emergente para enviar correo -->
+    <div id="email-popup" style="display: none;">
+        <form>
+            <h3>Enviar Correo</h3>
+            <label for="email-content">Mensaje:</label>
+            <textarea id="email-content" rows="4" placeholder="Escribe tu mensaje"></textarea>
+            <button type="submit">Enviar</button>
+            <button type="button" onclick="cerrarCorreo()">Cancelar</button>
+        </form>
+    </div>
+
+    <script>
+        function mostrarSeccion(seccion) {
+            document.querySelectorAll('.Mural').forEach(section => section.style.display = 'none');
+            document.getElementById(seccion).style.display = 'block';
+        }
+
+        function abrirCorreo() {
+            document.getElementById('email-popup').style.display = 'block';
+        }
+
+        function cerrarCorreo() {
+            document.getElementById('email-popup').style.display = 'none';
+        }
+
+        function mostrarFormularioSubgrupo() {
+            document.getElementById('subgroup-form').style.display = 'block';
+        }
+
+        function ocultarFormularioSubgrupo() {
+            document.getElementById('subgroup-form').style.display = 'none';
+        }
+
+        function agregarMiembro() {
+            const input = document.getElementById('search-user');
+            const miembro = input.value.trim();
+
+            if (miembro) {
+                const lista = document.getElementById('miembros-list');
+                const nuevoMiembro = document.createElement('li');
+                nuevoMiembro.textContent = miembro;
+                lista.appendChild(nuevoMiembro);
+                input.value = ''; // Limpiar el campo de búsqueda
+            }
+        }
+
+        mostrarSeccion('general');
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Equipos</title>
+    <link rel="stylesheet" href="css/equipos.css">
+</head>
+
+<body>
+
+    <div id="header">
+        <h1>Mis Equipos</h1>
+    </div>
+
+    <div id="EquiposUsuarios">
+        
+        <!-- GRUPOS -->
+
+        <div class="LinkEquipo">
+            <a href="mural.html">
+                <div class="team">
+                    <h2>POI</h2>
+                    <p>Programación Orientada a la Internet.</p>
+                </div>
+            </a>
+        </div>
+        
+        <div class="LinkEquipo">
+            <a href="mural.html">
+                <div class="team">
+                    <h2>BDM</h2>
+                    <p>Base de Datos Multimedia.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="LinkEquipo">
+            <a href="mural.html">
+                <div class="team">
+                    <h2>Animación</h2>
+                    <p>Animación Tradicional de HUmanos y Animales.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="LinkEquipo">
+            <a href="mural.html">
+                <div class="team">
+                    <h2>GCW1</h2>
+                    <p>Gráficas Computacionales para Web I.</p>
+                </div>
+            </a>
+        </div>
+
+        <div class="LinkEquipo">
+            <a href="mural.html">
+                <div class="team">
+                    <h2>OptVid</h2>
+                    <p>Optimización para Videojuegos.</p>
+                </div>
+            </a>
+        </div>
+
+
+        <!-- Botón para Crear Grupo -->
+
+        <div id="create-group">
+
+            <button id="toggle-form" onclick="mostrarFormulario()">Crear Nuevo Grupo</button>
+
+            <form id="group-form" style="display: none;">
+
+                <label for="group-name">Nombre del Grupo:</label>
+                <input type="text" id="group-name" placeholder="Nombre del grupo"><br>
+
+                <label for="group-description">Descripción:</label>
+                <textarea id="group-description" rows="2" placeholder="Descripción del grupo"></textarea><br>
+
+                <label for="user-search">Buscar miembros:</label>
+                <div style="display: flex; gap: 10px;">
+                    <input type="text" id="user-search" placeholder="Buscar usuarios">
+                    <button type="button" onclick="agregarUsuario()">Agregar</button>
+                </div><br>
+
+                <!-- Lista de miembros seleccionados -->
+                <h3>Miembros seleccionados:</h3>
+                <ul id="selected-users"></ul>
+                
+                <button type="submit">Crear Grupo</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const selectedUsers = [];
+
+        function mostrarFormulario() {
+            const form = document.getElementById('group-form');
+            form.style.display = form.style.display === 'none' ? 'block' : 'none';
+        }
+
+        function agregarUsuario() {
+            const userInput = document.getElementById('user-search').value;
+            if (userInput.trim() !== '' && !selectedUsers.includes(userInput)) {
+                selectedUsers.push(userInput);
+                actualizarLista();
+                document.getElementById('user-search').value = ''; // Limpiar el input después de agregar
+            }
+        }
+
+        function actualizarLista() {
+            const selectedList = document.getElementById('selected-users');
+            selectedList.innerHTML = '';
+            selectedUsers.forEach(user => {
+                selectedList.innerHTML += `<li>${user} <button type="button" onclick="eliminarUsuario('${user}')">Eliminar</button></li>`;
+            });
+        }
+
+        function eliminarUsuario(user) {
+            const index = selectedUsers.indexOf(user);
+            if (index > -1) {
+                selectedUsers.splice(index, 1);
+                actualizarLista();
+            }
+        }
+    </script>
+
+</body>
+</html>

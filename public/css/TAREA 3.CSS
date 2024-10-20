@@ -1,0 +1,130 @@
+body {
+    margin: 0;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
+    background-color: #fef6e4;
+}
+
+.task-container {
+    display: flex;
+    height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #2b3a67;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+    border-right: 5px solid #1e2b4a;
+}
+
+.menu {
+    flex-grow: 1;
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.menu-item:hover {
+    color: #ff69b4; /* Cambia el color al pasar el ratón */
+}
+
+.separator {
+    border-top: 1px solid #ff69b4;
+    margin: 20px 0;
+}
+
+.contacts {
+    margin-bottom: 20px;
+}
+
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.contact-item img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+#logout {
+    margin-top: auto;
+}
+
+.task-content {
+    flex-grow: 1;
+    background-color: #f4f5fa;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    color: #2b3a67;
+    text-align: center;
+}
+
+.task-details {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.task-item {
+    margin-bottom: 15px;
+}
+
+strong {
+    color: #2b3a67;
+}
+
+.upload-section {
+    margin-bottom: 20px;
+}
+
+label {
+    font-size: 18px;
+    color: #2b3a67;
+}
+
+input[type="file"] {
+    padding: 10px;
+    border-radius: 10px;
+    border: 2px solid #2b3a67;
+    width: 100%;
+    margin-top: 5px;
+}
+
+button {
+    padding: 10px;
+    background-color: #ff69b4; /* Color rosa para el botón */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #e6398a; /* Color rosa más oscuro al pasar el ratón */
+}

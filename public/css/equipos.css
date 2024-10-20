@@ -1,0 +1,114 @@
+body {
+    font-family: Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+}
+
+#header {
+    background-color: #2b3a67;
+    color: white;
+    padding: 15px;
+    text-align: center;
+}
+
+#EquiposUsuarios {
+    margin: 40px;
+}
+
+.LinkEquipo {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.LinkEquipo a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.team {
+    padding: 10px 0;
+    border-bottom: 1px solid #2b3a67;
+}
+
+.team:hover {
+    background-color: white; 
+}
+
+.team h2 {
+    margin: 0;
+    color: #2b3a67;
+}
+
+.team p {
+    margin: 5px 0 0;
+    color: gray;
+}
+
+#create-group #toggle-form {
+    padding: 10px 20px;
+    margin-top: 30px;
+    background-color: #58a6ff;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#create-group #toggle-form:hover {
+    background-color: #2b3a67;
+}
+
+#create-group form {
+    display: flex;
+    margin-top: 20px;
+}
+
+#create-group input,
+#create-group textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#create-group button {
+    padding: 10px;
+    background-color: #58a6ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+#create-group button:hover {
+    background-color: #2b3a67;
+}
+
+#selected-users {
+    list-style: none;
+    padding-left: 0;
+}
+
+#selected-users li {
+    padding: 5px;
+    background-color: #f9f9f9;
+    margin: 5px 0;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+#selected-users button {
+    margin-left: 10px;
+    background-color: #58a6ff;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+#selected-users button:hover {
+    background-color: #2b3a67;
+}

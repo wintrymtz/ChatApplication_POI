@@ -1,0 +1,108 @@
+/* Estilos generales */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f2f5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+/* Contenedor principal de la videollamada */
+.videocall-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: #1c1e21;
+    padding: 10px;
+    border-radius: 10px;
+    width: 80%;
+    height: 60%;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.video-box {
+    position: relative;
+    width: 48%;
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.video-box video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.username-tag {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Controles de la videollamada */
+.controls {
+    margin-top: 20px;
+    display: flex;
+    gap: 20px;
+}
+
+.control-btn {
+    background-color: #3a3b3c;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    transition: background-color 0.2s;
+}
+
+.control-btn:hover {
+    background-color: #555657;
+}
+
+/* Iconos personalizados */
+.icon {
+    width: 30px;
+    height: 30px;
+}
+
+.end-call-icon {
+    width: 40px;
+    height: 40px;
+}
+
+.mic-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.camera-icon {
+    width: 30px;
+    height: 30px;
+}
+
+/* Ajustes de colores para los botones */
+#end-call-btn {
+    background-color: #f02849;
+}
+
+#end-call-btn:hover {
+    background-color: #c52235;
+}
