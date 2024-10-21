@@ -29,7 +29,7 @@ io.on("connection", function (socket) {
         socket.join(roomId);
         console.log(typeof (roomId));
         console.log(`${socket.id} se unió a la sala ${roomId}`);
-        socket.broadcast.to(roomId).emit("update", username + " joined the conversation", roomId);
+        socket.broadcast.to(roomId).emit("update", username + " se unió a la conversacion", roomId);
     });
 
     socket.on("leaveRoom", function (roomId) {
