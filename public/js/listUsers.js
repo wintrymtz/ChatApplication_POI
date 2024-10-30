@@ -1,6 +1,8 @@
 import socketData from "./socket.js";
 
 let arrayContactos = document.getElementsByClassName('contact-item');
+let destinatarioID;
+
 
 async function validateAuth() {
     fetch('/checkSession')
@@ -103,6 +105,7 @@ function showSearchList(array) {
                 socketData.socket.emit("joinRoom", socketData.username, newIdRoom);
                 socketData.roomId = newIdRoom;
                 changeChat(e.currentTarget.id);
+                destinatarioID = e.currentTarget.id;
             } else {
                 console.error("Socket no está definido o no está conectado.");
             }
@@ -124,6 +127,7 @@ async function changeChat(_id) {
     })
     let res = await response.json();
     let user = res['data'][0];
+    let messages = res['messages'];
     console.log(res);
 
     const nombreContacto = document.getElementById('contact-name');
@@ -133,6 +137,51 @@ async function changeChat(_id) {
     ${user['nombreUsuario']}
     `;
 
+    if (messages) {
+        renderMessages(user, messages);
+    }
+
+    console.log('Obteniendo chat...', user, messages);
+}
+
+function renderMessages(objUser, objMessage) {
+    let messageContainer = document.querySelector(".chat-content .chat-messages");
+
+    objMessage.forEach((m) => {
+        if (m.usuarioID == objUser['usuarioID']) {
+            let container = document.createElement("div");
+            container.setAttribute('class', 'message-container');
+
+            let el = document.createElement("div");
+            el.setAttribute("class", "message received");
+            el.innerHTML = `
+                  <div class="user-info">
+                            <span class="message-username">${objUser.nombreUsuario}</span>
+                            <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                        </div>
+                        <p>${m.texto}</p>
+            `;
+
+            container.appendChild(el);
+            messageContainer.appendChild(container);
+        } else {
+            let container = document.createElement("div");
+            container.setAttribute('class', 'message-container');
+
+            let el = document.createElement("div");
+            // el.setAttribute("class", "message my-message");
+            el.setAttribute("class", "message sent");
+            el.innerHTML = `
+                <!-- <div class="name">You--</div> -->
+                 <div class="user-info">
+                            <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                        </div>
+                        <p>${m.texto}</p>
+            `;
+            container.appendChild(el);
+            messageContainer.appendChild(container);
+        }
+    })
 }
 
 function updateUser() {
@@ -175,6 +224,35 @@ document.getElementById('logout').addEventListener('click', () => {
             }
         });
 })
+
+document.querySelector(".chat-input #send-message").addEventListener("click", function () {
+    let message = document.getElementById("message-input").value;
+    if (message.lenght == 0) {
+        return;
+    }
+    console.log(message);
+
+    socketData.socket.emit("chat", {
+        username: socketData.username,
+        text: message
+    }, socketData.roomId);
+
+    fetch("/save-private-message", {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            message: message,
+            file: null,
+            destinatarioID: destinatarioID
+        }),
+    });
+    document.getElementById("message-input").value = "";
+
+});
+
+
 
 updateUser();
 

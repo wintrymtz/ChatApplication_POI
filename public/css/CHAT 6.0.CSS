@@ -321,9 +321,9 @@ a {
 }
 
 .header-icon {
-    width: 100px;
+    width: 40px;
     /* Tamaño más grande de la imagen */
-    height: 100px;
+    height: 40px;
     /* Tamaño más grande de la imagen */
     border-radius: 50%;
     margin-right: 10px;
@@ -336,4 +336,9 @@ a {
     /* Tamaño más grande de la imagen */
     border-radius: 50%;
     margin-right: 10px;
+}
+
+.chat-title {
+    display: flex;
+    align-items: center;
 }

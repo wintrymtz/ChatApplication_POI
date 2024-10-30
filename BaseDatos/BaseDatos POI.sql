@@ -68,7 +68,7 @@ CREATE TABLE Grupo (
     nombreGrupo		VARCHAR(50) NOT NULL,
     descripcion		VARCHAR(250),
     tipoGrupo		ENUM('grupo', 'subgrupo', 'mensaje'),
-    creadorID		INT NOT NULL,
+    creadorID		INT DEFAULT NULL,
     subgrupoID		INT DEFAULT NULL,
     
     FOREIGN KEY (creadorID) REFERENCES Usuario(usuarioID),

@@ -10,9 +10,8 @@ const io = require("socket.io")(server);
 console.log('Servidor iniciado');
 
 const db = require('./database.js');
-const userMod = require('./UserModule.js');
-const { URLSearchParams } = require("url");
-const { error } = require("console");
+const userMod = require('./Modules/UserModule.js');
+const chatMod = require('./Modules/ChatModule.js');
 
 app.use(express.static(path.join(__dirname + "/public")));
 
@@ -39,6 +38,7 @@ io.on("connection", function (socket) {
 
     socket.on("chat", function (message, roomId) {
         socket.broadcast.to(roomId).emit("chat", message,);
+
         console.log(`${message} se envió a la sala ${roomId}`);
     });
 })
@@ -125,35 +125,35 @@ app.post('/login', async (req, res) => {
     }
 })
 
-app.post('/getChat', async (req, res) => {
-    try {
-        let data = req.body;
-        // let user1 = await userMod.findUser(data['user']);
-        let user1 = await userMod.findUser(req.session.user['userEmail']);
+// app.post('/getChat', async (req, res) => {
+//     try {
+//         let data = req.body;
+//         // let user1 = await userMod.findUser(data['user']);
+//         let user1 = await userMod.findUser(req.session.user['userEmail']);
 
-        let user2 = await userMod.findUser(data['contact']);
+//         let user2 = await userMod.findUser(data['contact']);
 
-        if (user1 === undefined || user2 === undefined) {
-            res.status(404).json({ success: false, message: 'Usuarios no encontrados' });
-            return;
-        }
+//         if (user1 === undefined || user2 === undefined) {
+//             res.status(404).json({ success: false, message: 'Usuarios no encontrados' });
+//             return;
+//         }
 
-        let maxID;
-        let minID;
-        if (user1['usuarioID'] > user2['usuarioID']) {
-            maxID = user1['usuarioID'];
-            minID = user2['usuarioID'];
-        } else {
-            maxID = user2['usuarioID'];
-            minID = user1['usuarioID'];
-        }
-        let chatId = 's' + minID + maxID;
-        res.status(200).json({ chatId: chatId });
-    } catch (error) {
-        console.log(error)
-    }
+//         let maxID;
+//         let minID;
+//         if (user1['usuarioID'] > user2['usuarioID']) {
+//             maxID = user1['usuarioID'];
+//             minID = user2['usuarioID'];
+//         } else {
+//             maxID = user2['usuarioID'];
+//             minID = user1['usuarioID'];
+//         }
+//         let chatId = 's' + minID + maxID;
+//         res.status(200).json({ chatId: chatId });
+//     } catch (error) {
+//         console.log(error)
+//     }
 
-});
+// });
 
 
 app.post('/search-user', async (req, res) => {
@@ -178,19 +178,43 @@ app.post('/search-user', async (req, res) => {
 app.post('/search-user-id', async (req, res) => {
     try {
         let data = req.body;
-        let user = await userMod.findUserbyId(data['id']);
+        let user2 = await userMod.findUserbyId(data['id']);
+        let user1 = await userMod.findUserbyId(req.session.user['userId']);
 
-        if (user === undefined) {
-            res.status(200).json({ success: true, message: 'Usuario no encontrado' });
+        if (user2 === undefined) {
+            res.status(404).json({ success: true, message: 'Usuario no encontrado' });
             return;
         }
+
+        if (user1 === undefined) {
+            res.status(404).json({ success: true, message: 'Error con las credenciales' });
+            return;
+        }
+
+        let message = await chatMod.getPrivateChat(user1[0]['usuarioID'], user2[0]['usuarioID']);
+
         // console.log(data['data']);
         // console.log(users);
-        res.status(200).json({ data: user });
+        res.status(200).json({ data: user2, messages: message });
     } catch (error) {
         console.log(error)
     }
 
 });
 
+app.post('/save-private-message', async (req, res) => {
+    try {
+        let data = req.body;
+        if (data['file'] === undefined) {
+            data['file'] = null;
+        }
+        if (data['destinatarioID']) {
+            let message = await chatMod.savePrivateMessage(data['message'], data['file'], req.session.user['userId'], data['destinatarioID']);
+        }
+
+        res.status(200).json({ data: 'almacenado correctamente' });
+    } catch (error) {
+        console.log(error)
+    }
+});
 server.listen(4000);

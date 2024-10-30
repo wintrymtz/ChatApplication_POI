@@ -162,6 +162,86 @@ DELIMITER ;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de MENSAJE------------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------
+-- Procedure para chats privados (crear el chat y almacenar contenido)
+delimiter //
+CREATE PROCEDURE CHAT_EnviarMensajePrivado(
+IN p_mensaje TEXT,
+IN p_archivo LONGBLOB,
+IN p_remitente INT,
+IN p_destinatario INT
+)
+BEGIN
+	declare _grupoID int;
+    declare _response varchar(100);
+    declare _contenidoID INT;
+    declare _mensajeID INT;
+    declare _userValidation INT;
+    declare _count INT;
+    declare _groupCount INT;
+    
+    SELECT a.grupoID, count(*) INTO _grupoID, _groupCount
+		FROM Usuario_Grupo a
+		INNER JOIN Grupo b ON b.grupoID = a.grupoID
+		WHERE a.usuarioID IN (p_remitente, p_destinatario)
+		AND b.tipoGrupo = 'mensaje'
+		GROUP BY a.grupoID
+		HAVING COUNT(*) =2;
+
+			
+	select COUNT(*) into _userValidation FROM usuario WHERE usuario.usuarioID in (p_remitente, p_destinatario);
+    IF _userValidation != 2
+    THEN
+    SELECT 'NO EXISTEN LOS USUARIOS'; 
+    ELSE                    
+		IF	_grupoID is null OR _groupCount != 2
+		THEN
+		set _response = 'Grupo no existe, se creó el grupo';
+		INSERT INTO Grupo(nombreGrupo, tipoGrupo, creadorID) VALUES('privateChat', 3, null);
+		SET _grupoID = LAST_INSERT_ID();
+		INSERT INTO Usuario_Grupo VALUES 
+		(p_destinatario, _grupoID),
+		(p_remitente, _grupoID);
+		END IF;
+		
+		INSERT INTO Contenido(texto, archivo) VALUES (p_mensaje, p_archivo);
+		SET _contenidoID = LAST_INSERT_ID();     
+		INSERT INTO Mensaje (usuarioID, contenidoID, fecha) VALUES (p_remitente, _contenidoID, now());
+		SET _mensajeID = LAST_INSERT_ID();     
+		INSERT INTO Mensaje_Grupo VALUES(_mensajeID, _grupoID);  
+	END IF;
+
+END //
+delimiter ;
+-- OBTENER MENSAJES PRIVADOS
+DELIMITER //
+CREATE PROCEDURE CHAT_obtenerMensajesPrivados(
+IN p_usuarioID INT,
+IN p_usuario2ID INT
+)
+BEGIN
+
+declare _grupoID INT;
+declare _cantidad INT;
+
+ SELECT a.grupoID, count(*) INTO _grupoID, _cantidad
+		FROM Usuario_Grupo a
+		INNER JOIN Grupo b ON b.grupoID = a.grupoID
+		WHERE a.usuarioID IN (p_usuarioID, p_usuario2ID)
+		AND b.tipoGrupo = 'mensaje'
+		GROUP BY a.grupoID
+		HAVING COUNT(*) =2;
+
+        
+        IF _cantidad = 2 THEN
+	SELECT m.usuarioID, c.texto, c.archivo, m.fecha FROM Contenido c
+			INNER JOIN Mensaje m ON c.contenidoID = m.contenidoID
+			INNER JOIN mensaje_grupo mg ON mg.mensajeID = m.mensajeID
+			INNER JOIN grupo g ON g.grupoID = mg.grupoID
+			WHERE g.grupoID = _grupoID;
+		END IF;
+END//
+DELIMITER ;
+
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de CONTENIDO----------------------------------------------------------------------

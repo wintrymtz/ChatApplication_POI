@@ -1,23 +1,23 @@
 // let localUser = localStorage.getItem("user");
 import socketData from "./socket.js";
 
-async function getChatRoom(my_email, contact_email) {
-    const myHeaders = new Headers();
-    myHeaders.append("Content-Type", "application/json");
+// async function getChatRoom(my_email, contact_email) {
+//     const myHeaders = new Headers();
+//     myHeaders.append("Content-Type", "application/json");
 
-    const response = await fetch("/getChat", {
-        method: "POST",
-        body: JSON.stringify(data = {
-            user: my_email,
-            contact: contact_email
-        }),
-        headers: myHeaders,
-    })
+//     const response = await fetch("/getChat", {
+//         method: "POST",
+//         body: JSON.stringify(data = {
+//             user: my_email,
+//             contact: contact_email
+//         }),
+//         headers: myHeaders,
+//     })
 
-    let res = await response.json();
-    console.log(res);
-    return res['chatId'];
-}
+//     let res = await response.json();
+//     console.log(res);
+//     return res['chatId'];
+// }
 
 (async function () {
     const app = document.querySelector(".chat-content");
@@ -77,12 +77,6 @@ async function getChatRoom(my_email, contact_email) {
             username: uname,
             text: message
         });
-        console.log(socketData.roomId);
-        socketData.socket.emit("chat", {
-            username: socketData.username,
-            text: message
-        }, socketData.roomId);
-        app.querySelector(".chat-content #message-input").value = "";
     });
 
     function changed() {
