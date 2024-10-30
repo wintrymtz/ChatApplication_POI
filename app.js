@@ -12,6 +12,7 @@ console.log('Servidor iniciado');
 const db = require('./database.js');
 const userMod = require('./Modules/UserModule.js');
 const chatMod = require('./Modules/ChatModule.js');
+const groupMod = require('./Modules/GroupModule.js');
 
 app.use(express.static(path.join(__dirname + "/public")));
 
@@ -217,4 +218,41 @@ app.post('/save-private-message', async (req, res) => {
         console.log(error)
     }
 });
+
+app.post('/create-group', async (req, res) => {
+    try {
+        let data = req.body;
+        data = data['data'];
+        if (req.session.user) {
+            let grupoId = await groupMod.createGroup(data['nombreGrupo'], data['descripcionGrupo'], req.session.user['userId']);
+            console.log('------GRUPO ID: ', grupoId);
+            if (grupoId && data['users'].length > 0) {
+                let usuarios = data['users'];
+                console.log(usuarios, data['users']);
+                usuarios.forEach(async element => {
+                    let res = await groupMod.addUsersToGroup(grupoId, element, 1);
+                    console.log(element, res);
+                });
+                res.status(200).json({ data: 'Accion completada correctamente' });
+            }
+        }
+        else {
+            res.status(404).json({ data: 'se requiere iniciar sesion' });
+        }
+    } catch (error) {
+        console.log(error)
+    }
+});
+
+app.get('/get-groups', async (req, res) => {
+    try {
+
+        let data = await groupMod.getAllGroups(req.session.user['userId']);
+
+        res.status(200).json({ data: data });
+    } catch (error) {
+        console.log(error)
+    }
+});
+
 server.listen(4000);

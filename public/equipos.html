@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,55 +15,55 @@
     </div>
 
     <div id="EquiposUsuarios">
-        
+
         <!-- GRUPOS -->
+        <div id="grupos">
+            <div class="LinkEquipo">
+                <a href="mural.html">
+                    <div class="team">
+                        <h2>POI</h2>
+                        <p>Programación Orientada a la Internet.</p>
+                    </div>
+                </a>
+            </div>
 
-        <div class="LinkEquipo">
-            <a href="mural.html">
-                <div class="team">
-                    <h2>POI</h2>
-                    <p>Programación Orientada a la Internet.</p>
-                </div>
-            </a>
+            <div class="LinkEquipo">
+                <a href="mural.html">
+                    <div class="team">
+                        <h2>BDM</h2>
+                        <p>Base de Datos Multimedia.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="LinkEquipo">
+                <a href="mural.html">
+                    <div class="team">
+                        <h2>Animación</h2>
+                        <p>Animación Tradicional de HUmanos y Animales.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="LinkEquipo">
+                <a href="mural.html">
+                    <div class="team">
+                        <h2>GCW1</h2>
+                        <p>Gráficas Computacionales para Web I.</p>
+                    </div>
+                </a>
+            </div>
+
+            <div class="LinkEquipo">
+                <a href="mural.html">
+                    <div class="team">
+                        <h2>OptVid</h2>
+                        <p>Optimización para Videojuegos.</p>
+                    </div>
+                </a>
+            </div>
+
         </div>
-        
-        <div class="LinkEquipo">
-            <a href="mural.html">
-                <div class="team">
-                    <h2>BDM</h2>
-                    <p>Base de Datos Multimedia.</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="LinkEquipo">
-            <a href="mural.html">
-                <div class="team">
-                    <h2>Animación</h2>
-                    <p>Animación Tradicional de HUmanos y Animales.</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="LinkEquipo">
-            <a href="mural.html">
-                <div class="team">
-                    <h2>GCW1</h2>
-                    <p>Gráficas Computacionales para Web I.</p>
-                </div>
-            </a>
-        </div>
-
-        <div class="LinkEquipo">
-            <a href="mural.html">
-                <div class="team">
-                    <h2>OptVid</h2>
-                    <p>Optimización para Videojuegos.</p>
-                </div>
-            </a>
-        </div>
-
-
         <!-- Botón para Crear Grupo -->
 
         <div id="create-group">
@@ -86,7 +87,7 @@
                 <!-- Lista de miembros seleccionados -->
                 <h3>Miembros seleccionados:</h3>
                 <ul id="selected-users"></ul>
-                
+
                 <button type="submit">Crear Grupo</button>
             </form>
         </div>
@@ -97,7 +98,10 @@
 
         function mostrarFormulario() {
             const form = document.getElementById('group-form');
+            const groups = document.getElementById('grupos');
+
             form.style.display = form.style.display === 'none' ? 'block' : 'none';
+
         }
 
         function agregarUsuario() {
@@ -127,4 +131,5 @@
     </script>
 
 </body>
+
 </html>

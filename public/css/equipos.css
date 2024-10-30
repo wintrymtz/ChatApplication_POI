@@ -1,9 +1,39 @@
 body {
-    font-family: Verdana, sans-serif;
+    font-family: 'Comic Sans MS', cursive, sans-serif;
     margin: 0;
     padding: 0;
     background-color: whitesmoke;
 }
+
+#grupos {
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+}
+
+.s2_result {
+    margin-top: 5px;
+    background-color: rgb(214, 214, 214);
+    border: 2px solid #47568c;
+    border-radius: 10px;
+    height: 30px;
+    width: 40%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 15px;
+    padding-left: 10px;
+    cursor: pointer;
+    margin-right: 200px;
+}
+
+.s2_email {
+    margin-right: 50px;
+}
+
+
 
 #header {
     background-color: #2b3a67;
@@ -13,7 +43,12 @@ body {
 }
 
 #EquiposUsuarios {
-    margin: 40px;
+    flex-grow: 1;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 0 0 10px 10px;
+    width: 95%;
 }
 
 .LinkEquipo {
@@ -33,7 +68,7 @@ body {
 }
 
 .team:hover {
-    background-color: white; 
+    background-color: white;
 }
 
 .team h2 {
@@ -98,6 +133,9 @@ body {
     margin: 5px 0;
     border-radius: 5px;
     border: 1px solid #ddd;
+    display: flex;
+    justify-content: space-between;
+    width: 500px;
 }
 
 #selected-users button {

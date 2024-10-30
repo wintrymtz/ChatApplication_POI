@@ -251,6 +251,48 @@ DELIMITER ;
 -- -----------------------------Tabla de GRUPO--------------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------
 
+--- CREAR GRUPO
+DELIMITER //
+CREATE PROCEDURE GRUPO_CrearGrupo(
+IN p_nombre varchar(50),
+IN p_descripcion varchar(250),
+IN p_creadorID int
+)
+BEGIN
+
+declare _grupoID int;
+	INSERT INTO Grupo(nombreGrupo, descripcion, tipoGrupo, creadorID)
+	VALUES(p_nombre, p_descripcion, 1, p_creadorID);
+
+	SET _grupoID = LAST_INSERT_ID();
+    
+    INSERT INTO usuario_grupo VALUES(p_creadorID, _grupoID);
+    
+    SELECT _grupoID as grupoID;
+END //
+DELIMITER ;
+
+CALL GRUPO_CrearGrupo('BUENOS DIAS', 'ASDADS', 1);
+
+--- AGREGAR USUARIOS A UN GRUPO
+DELIMITER //
+CREATE PROCEDURE GRUPO_AgregarUsuarios(
+IN p_grupoID INT,
+IN p_correo varchar(100)
+)
+BEGIN
+declare idUsuario INT;
+
+SELECT usuario.usuarioID INTO idUsuario FROM Usuario WHERE Usuario.correo = p_correo;
+
+IF idUsuario is not null THEN
+INSERT INTO usuario_grupo VALUES (idUsuario, p_grupoID);
+SELECT 'Usuario agregado' as response;
+ELSE
+SELECT 'error, usuario no existente' as response;
+END IF;
+END //
+DELIMITER ;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de USUARIO-GRUPO------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------
