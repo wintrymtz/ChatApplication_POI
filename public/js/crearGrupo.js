@@ -47,7 +47,7 @@ function obtenerGrupos() {
 
                 groupDiv.addEventListener('click', () => {
                     localStorage.setItem('grupoID', element.grupoID);
-                    window.location.href = 'mural.html'
+                    window.location.href = 'muralV2.html'
                 })
             });
         });

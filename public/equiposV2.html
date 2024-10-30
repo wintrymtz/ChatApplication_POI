@@ -131,6 +131,27 @@
     </div>
     <script type="module" src="socket.io/socket.io.js"></script>
     <script src="js/crearGrupo.js"></script>
+    <script>
+
+        document.getElementById('logout').addEventListener('click', () => {
+
+            console.log('hola');
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/';
+                    } else {
+                        console.error('Error al cerrar sesión:', data.message);
+                    }
+                });
+        })
+    </script>
 </body>
 
 </html>
