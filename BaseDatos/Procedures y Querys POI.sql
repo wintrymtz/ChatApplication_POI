@@ -293,6 +293,17 @@ SELECT 'error, usuario no existente' as response;
 END IF;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE GRUPO_ObtenerGrupos(
+IN p_userID INT)
+BEGIN
+SELECT g.grupoID, g.nombreGrupo, g.descripcion, g.creadorID 
+		FROM Grupo g
+        INNER JOIN usuario_grupo ug ON ug.grupoID = g.grupoID
+        WHERE ug.usuarioID = p_userID AND g.tipoGrupo = 1;
+END //
+DELIMITER ;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de USUARIO-GRUPO------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------
