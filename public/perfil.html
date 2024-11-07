@@ -5,32 +5,133 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil de Usuario</title>
+    <link rel="stylesheet" href="css/CHAT 6.0.CSS">
     <link rel="stylesheet" href="css/perfilStyle.css">
 </head>
 
 <body>
 
-    <div id="header">
-        <h1>Perfil de Usuario</h1>
-    </div>
+    <div class="chat-container">
 
-    <div id="profile-container">
+        <div class="sidebar">
+            <div id="right-button" class="right-button">
+                <span class="icon2 material-symbols-outlined" style="font-size: 50px; width: 60px; height: 60px;">
+                    person_search
+                </span>
+            </div>
+            <div class="separator"></div>
+            <div class="menu">
+                <a href="chat.html">
+                <div class="menu-item">
+                    <span class="icon">🏠</span>
+                    Inicio
+                </div>
+                </a>
+                <a href="equiposV2.html">
+                    <div class="menu-item">
+                        <span class="icon">👥</span>
+                        Grupos
+                    </div>
+                </a>
+                <a href="perfil.html">
+                    <div class="menu-item">
+                        <span class="icon">👤</span>
+                        Perfil
+                    </div>
+                </a>
+                <a href="RECOMPENSAS 2.0.HTML">
+                    <div class="menu-item" id="rewards">
+                        <span class="icon">🏆</span>
+                        Recompensas
+                    </div>
+                </a>
+            </div>
+            <div class="separator"></div>
+            <div class="menu-item">
+                <p id="current-user">Usuario actual</p>
+            </div>
+            <div class="menu-item" id="logout">
+                <span class="icon">🚪</span>
+                Cerrar Sesión
+            </div>
 
-        <div id="profile-picture">
-            <img src="Images/profile-user.jpg" alt="Foto de Perfil">
         </div>
 
-        <div id="profile-info">
+        <div class="chat-content">
+            <div class="chat-header">
+                <div>
+                    Perfil de Usuario
+                </div>
+            </div>
 
-            <h2>Juan Pérez</h2>
-            <p><strong>Nombre:</strong> Juan Alex Pérez Torres</p>
-            <p><strong>Correo Electrónico:</strong> juan.perez@hotmail.com</p>
-            <p><strong>Contraseña:</strong> Juanito_41c4ch0f4</p>
-            <p><strong>Se unió en:</strong> Febrero 2023</p>
-
+            <div id="profile-picture">
+                <img src="Images/profile-user.jpg" alt="Foto de Perfil">
+            </div>
+    
+            <div id="profile-info">
+    
+                <h2>Juan Pérez</h2>
+                <p><strong>Nombre:</strong> Juan Alex Pérez Torres</p>
+                <p><strong>Correo Electrónico:</strong> juan.perez@hotmail.com</p>
+                <p><strong>Contraseña:</strong> Juanito_41c4ch0f4</p>
+                <p><strong>Se unió en:</strong> Febrero 2023</p>
+    
+            </div>
+            
         </div>
-
+        <div id="right-menu" class="right-menu">
+            <div class="right-title">
+                <h2>Buscar Usuarios</h2>
+            </div>
+            <div class="search-bar">
+                <input id="search-input" type="text" placeholder="Buscar contacto...">
+                <div class="search-results" id="search-results">
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script type="module" src="socket.io/socket.io.js"></script>
+    <script type="module" src="js/listUsers.js"></script>
+
+    
+    <script>
+        document.getElementById('right-button').addEventListener('click', () => {
+            const rightMenu = document.getElementById('right-menu');
+
+            // Cambia la visibilidad del menú
+            if (rightMenu.style.display == 'block') {
+                rightMenu.style.display = 'none'; // Ocultar si está visible
+            } else {
+                rightMenu.style.display = 'block'; // Mostrar si está oculto
+            }
+
+            console.log(rightMenu.style);
+        })
+    </script>
+
+    <script>
+
+        document.getElementById('logout').addEventListener('click', () => {
+
+            console.log('hola');
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        window.location.href = '/';
+                    } else {
+                        console.error('Error al cerrar sesión:', data.message);
+                    }
+                });
+        })
+    </script>
+
 
 </body>
 

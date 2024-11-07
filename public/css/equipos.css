@@ -150,3 +150,14 @@ body {
 #selected-users button:hover {
     background-color: #2b3a67;
 }
+
+.LinkEquipo:hover {
+    background-color: rgb(99, 165, 235);
+    cursor: pointer;
+}
+
+.team:hover {
+    background-color:whitesmoke;
+    font-weight: bold;
+    padding: 35px;
+}

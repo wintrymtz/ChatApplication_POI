@@ -6,6 +6,20 @@ body {
     color: #333;
 }
 
+.task-container {
+    display: flex;
+    height: 100vh;
+}
+
+.task-content {
+    flex-grow: 1;
+    background-color: #f4f5fa; /* Fondo suave para el contenido */
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra para el contenedor */
+}
+
 #header {
     background-color: #2b3a67;
     color: white;
