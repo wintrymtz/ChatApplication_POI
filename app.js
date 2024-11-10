@@ -255,4 +255,23 @@ app.get('/get-groups', async (req, res) => {
     }
 });
 
+
+
+
+// DATOS DEL PERFIL DE USUARIO
+
+app.get('/get-perfilUser', async (req, res) => {
+    try {     
+        console.log("User ID:", req.session.user?.userId); // Debug para revisar userId
+
+        let data = await userMod.findUserbyId(req.session.user['userId']);
+
+        res.status(200).json({ data: data });
+    } catch (error) {
+        console.log(error)
+    }
+});
+
+
+
 server.listen(4000);

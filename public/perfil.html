@@ -7,6 +7,9 @@
     <title>Perfil de Usuario</title>
     <link rel="stylesheet" href="css/CHAT 6.0.CSS">
     <link rel="stylesheet" href="css/perfilStyle.css">
+    <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person_search" />
+
 </head>
 
 <body>
@@ -58,26 +61,20 @@
         </div>
 
         <div class="chat-content">
+
             <div class="chat-header">
-                <div>
-                    Perfil de Usuario
-                </div>
+                <div>Perfil de Usuario</div>
             </div>
 
             <div id="profile-picture">
-                <img src="Images/profile-user.jpg" alt="Foto de Perfil">
+                <img id="user-photo" src="Images/profile-user.jpg" alt="Foto de Perfil">
             </div>
-    
-            <div id="profile-info">
-    
-                <h2>Juan Pérez</h2>
-                <p><strong>Nombre:</strong> Juan Alex Pérez Torres</p>
-                <p><strong>Correo Electrónico:</strong> juan.perez@hotmail.com</p>
-                <p><strong>Contraseña:</strong> Juanito_41c4ch0f4</p>
-                <p><strong>Se unió en:</strong> Febrero 2023</p>
-    
+
+
+            <!-- INFORMACION DEL USUARIO -->
+            <div id="profile-info">                
             </div>
-            
+
         </div>
         <div id="right-menu" class="right-menu">
             <div class="right-title">
@@ -90,10 +87,11 @@
             </div>
         </div>
     </div>
+    
 
     <script type="module" src="socket.io/socket.io.js"></script>
+    <script type="module" src="js/mostrarPerfil.js"></script>
     <script type="module" src="js/listUsers.js"></script>
-
     
     <script>
         document.getElementById('right-button').addEventListener('click', () => {
@@ -136,3 +134,5 @@
 </body>
 
 </html>
+
+

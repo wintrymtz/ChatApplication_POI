@@ -4,7 +4,7 @@ USE BD_POI;
 
 CALL getKardex(101);
 
-DROP PROCEDURE IF EXISTS getKardex;
+DROP PROCEDURE IF EXISTS USUARIOS_ObtenerUsuarioPorID;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de USUARIOS-----------------------------------------------------------------------
@@ -90,6 +90,7 @@ BEGIN
            U.nombreUsuario, 
            U.nombreApellido, 
            U.correo, 
+           U.contrasena,
            U.puntos, 
            P.titulo AS tituloActual
     FROM Usuario U
