@@ -13,6 +13,7 @@ const db = require('./database.js');
 const userMod = require('./Modules/UserModule.js');
 const chatMod = require('./Modules/ChatModule.js');
 const groupMod = require('./Modules/GroupModule.js');
+const rewardsMod = require('./Modules/RewardsModule.js');
 
 app.use(express.static(path.join(__dirname + "/public")));
 
@@ -271,6 +272,58 @@ app.get('/get-perfilUser', async (req, res) => {
         console.log(error)
     }
 });
+
+// FUNCIONES DE LA GAMIFICACION
+
+// Obtener título actual del usuario
+app.get('/get-user-title', async (req, res) => {
+    try {
+        const tituloID = req.session.user?.tituloID;
+        const title = await rewardsMod.getTitleById(tituloID);
+        res.json({ title });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener el título del usuario' });
+    }
+});
+
+// Obtener títulos desbloqueados del usuario
+app.get('/get-unlocked-titles', async (req, res) => {
+    try {
+        const unlockedTitles = await rewardsMod.getUnlockedTitles(req.session.user.userId);
+        res.json({ unlockedTitles });
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener los títulos desbloqueados' });
+    }
+});
+
+// Obtener puntos para la próxima recompensa
+app.get('/get-next-reward-points', async (req, res) => {
+    try {
+        const nextPoints = await rewardsMod.getNextRewardPoints(req.session.user.userId);
+        res.json({ data: { nextPoints: nextPoints || 0 } }); 
+    } catch (error) {
+        res.status(500).json({ error: 'Error al obtener puntos para la próxima recompensa' });
+    }
+});
+
+
+
+// Cambiar título del usuario
+app.post('/update-user-title', async (req, res) => {
+    try {
+        const { newTituloID } = req.body;
+        const result = await rewardsMod.updateUserTitle(req.session.user.userId, newTituloID);
+        if (result) {
+            res.json({ success: true, message: 'Título actualizado' });
+        } else {
+            res.json({ success: false, message: 'No se pudo actualizar el título' });
+        }
+    } catch (error) {
+        console.error('Error al actualizar el título:', error);
+        res.status(500).json({ error: 'Error al actualizar el título' });
+    }
+});
+
 
 
 

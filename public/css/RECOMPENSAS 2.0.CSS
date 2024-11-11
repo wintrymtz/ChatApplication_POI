@@ -99,6 +99,13 @@ h2 {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Sombra para el contenedor */
 }
 
+#user-info {    
+    padding: 12px;
+    color: #2b3a67;
+    font-size: 24px;
+    font-weight: bold;
+}
+
 .username {
     color: #2b3a67; /* Color del nombre de usuario */
     text-align: center;
@@ -131,25 +138,34 @@ select {
 
 button {
     padding: 12px;
-    background-color: #ff69b4; /* Color rosa para el botón */
+    background-color: #ffcc00; /* Color rosa para el botón */
     color: white;
     border: none;
     border-radius: 10px;
-    font-size: 16px;
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 25px;
     cursor: pointer;
     transition: background-color 0.3s, transform 0.2s; /* Transición para el efecto de movimiento */
     width: 100%;
 }
 
 button:hover {
-    background-color: #e6398a; /* Color rosa más oscuro al pasar el ratón */
+    background-color: #e6b800; /* Color rosa más oscuro al pasar el ratón */
     transform: translateY(-2px); /* Mueve hacia arriba al pasar el ratón */
 }
 
-#claim-btn {
-    background-color: #ffcc00; /* Color amarillo para el botón de reclamar */
+select:hover {
+    background-color: #d1d1d1;
 }
 
-#claim-btn:hover {
-    background-color: #e6b800; /* Color amarillo más oscuro al pasar el ratón */
+
+.title-rewards {
+    background-color: #2b3a67;
+    padding: 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 44px;
+    border-radius: 20px;
 }
+

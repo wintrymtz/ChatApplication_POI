@@ -3,9 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ventana de Recompensas</title>    
+    <title>Gamificación</title>    
     <link rel="stylesheet" href="css/RECOMPENSAS 2.0.CSS">
     <link rel="stylesheet" href="css/CHAT 6.0.CSS">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=person_search" />
 </head>
 
 <body>
@@ -58,28 +60,29 @@
 
         <div class="chat-content">
             
-            <h2>Recompensas</h2>
-            <div class="reward-content">
-                <h1 class="username">Nombre de Usuario</h1> <!-- Nombre de usuario en grande -->
-                
-                <label for="title-select">Elige tu título:</label>
-                <select id="title-select">
-                    <option value="novato">Novato</option>
-                    <option value="experto">Experto</option>
-                    <option value="maestro">Maestro</option>
-                </select>
+            <!-- HEADER DE LA PÁGINA -->
+            <h2 class="title-rewards">Recompensas</h2>
 
-                <div class="points-details">
-                    <div class="points-item">
-                        <strong>Puntos Actuales:</strong> <span id="current-points">150</span>
-                    </div>
-                    <div class="points-item">
-                        <strong>Puntos para la Próxima Recompensa:</strong> <span id="points-needed">200</span>
-                    </div>
+                    
+            <!-- Contenedor de Recompensas -->
+            <div class="reward-content">
+                
+                <!-- MOSTRAR NOMBRES Y PUNTOS DEL USUARIO -->
+                <div id="user-info"></div>
+
+                <!-- MOSTRAR TITULOS DISPONIBLES DEL USUARIO -->
+                <div id="reward-info">
+                    <h3>Elige tu título:</h3>
+                    <select id="select-titulos"></select>                    
                 </div>
 
-                <button id="claim-btn">Reclamar Recompensa</button>
+                <!-- MOSTRAR PROXIMOS PUNTOS A ALCANZAR -->
+                <div id="next-info"></div>
+
+                <button id="actualizar-titulo">Actualizar Título</button>
+               
             </div>
+
             
         </div>
         <div id="right-menu" class="right-menu">
@@ -95,8 +98,10 @@
     </div>
 
     <script type="module" src="socket.io/socket.io.js"></script>
+    <script type="module" src="js/rewards.js"></script>
     <script type="module" src="js/listUsers.js"></script>
     
+
     <script>
         document.getElementById('right-button').addEventListener('click', () => {
             const rightMenu = document.getElementById('right-menu');

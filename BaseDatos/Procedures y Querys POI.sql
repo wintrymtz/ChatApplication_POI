@@ -1,10 +1,7 @@
 USE BD_POI;
 
-
-
-CALL getKardex(101);
-
-DROP PROCEDURE IF EXISTS USUARIOS_ObtenerUsuarioPorID;
+DROP PROCEDURE IF EXISTS PREMIOS_ProximaRecompensa;
+DROP TRIGGER IF EXISTS verificar_desbloqueo_recompensa;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de USUARIOS-----------------------------------------------------------------------
@@ -100,6 +97,55 @@ END $$
 DELIMITER ;
 
 
+
+-- 6. OBTENER TITULO ACTUAL DEL USUARIO POR ID
+DELIMITER $$
+CREATE PROCEDURE USUARIOS_ObtenerTituloActual(
+    IN p_idUsuario INT
+)
+BEGIN
+    SELECT P.premioID, P.titulo
+    FROM Usuario U
+    JOIN Premio P ON U.tituloID = P.premioID
+    WHERE U.usuarioID = p_idUsuario;
+END $$
+DELIMITER ;
+
+
+
+ 
+
+-- 7. OBTENER LOS TITULOS DESBLOQUEADOS POR EL USUARIO
+DELIMITER $$
+CREATE PROCEDURE USUARIOS_ObtenerTitulosDesbloqueados(
+    IN p_idUsuario INT
+)
+BEGIN
+    SELECT P.premioID, P.titulo
+    FROM Recompensa R
+    JOIN Premio P ON R.premioID = P.premioID
+    WHERE R.usuarioID = p_idUsuario;
+END $$
+DELIMITER ;
+
+
+
+
+-- 8. ACTUALIZAR TITULO
+DELIMITER $$
+CREATE PROCEDURE USUARIOS_ActualizarTitulo(
+    IN p_idUsuario INT,
+    IN p_nuevoTituloID INT
+)
+BEGIN
+    UPDATE Usuario
+    SET tituloID = p_nuevoTituloID
+    WHERE usuarioID = p_idUsuario;
+END $$
+DELIMITER ;
+
+
+
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de PREMIOS------------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -107,25 +153,27 @@ DELIMITER ;
 -- 1. MOSTRAR LA SIGUIENTE META A ALCANZAR
 
 DELIMITER $$
-CREATE PROCEDURE PREMIOS_ObtenerSiguienteTitulo(
-    IN p_usuarioID INT -- ID del usuario para el que se quiere obtener el siguiente título
+CREATE PROCEDURE PREMIOS_ProximaRecompensa(
+    IN p_idUsuario INT
 )
 BEGIN
-    DECLARE v_puntosUsuario INT;
-    
-    -- Obtener los puntos actuales del usuario
-    SELECT puntos INTO v_puntosUsuario
-    FROM Usuario
-    WHERE usuarioID = p_usuarioID;
+    DECLARE puntaje_actual INT;
 
-    -- Obtener el siguiente título y los puntos necesarios
-    SELECT P.titulo, P.puntaje
+    -- Obtener el puntaje actual del usuario
+    SELECT puntos INTO puntaje_actual
+    FROM Usuario
+    WHERE usuarioID = p_idUsuario;
+
+    -- Seleccionar el puntaje mínimo de la tabla Premio que sea mayor que el puntaje actual del usuario
+    SELECT MIN(P.puntaje) AS proxima_meta
     FROM Premio P
-    WHERE P.puntaje > v_puntosUsuario
-    ORDER BY P.puntaje ASC
-    LIMIT 1; -- Traer solo el siguiente título
+    WHERE P.puntaje > puntaje_actual;
 END $$
 DELIMITER ;
+
+
+
+
 
 
 -- ---------------------------------------------------------------------------------------------------------------------
@@ -443,4 +491,39 @@ DELIMITER ;
 
 
 
+
+-- ---------------------------------------------------------------------------------------
+-- --------------------------- TRIGGERS, FUNCIONES, VIEWS Y DEMAS ------------------------
+-- ---------------------------------------------------------------------------------------
+
+DELIMITER $$
+CREATE TRIGGER verificar_desbloqueo_recompensa
+AFTER UPDATE ON Usuario
+FOR EACH ROW
+BEGIN
+    DECLARE puntos_usuario INT DEFAULT NEW.puntos;
+    DECLARE premio_id INT;
+
+    -- Obtener premios que el usuario ha ganado con sus puntos
+    DECLARE premios_cursor CURSOR FOR 
+        SELECT premioID FROM Premio WHERE puntaje <= puntos_usuario;
+
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET premio_id = NULL;
+
+    OPEN premios_cursor;
+    premio_loop: LOOP
+        FETCH premios_cursor INTO premio_id;
+        IF premio_id IS NULL THEN
+            LEAVE premio_loop;
+        END IF;
+
+        -- Insertar en Recompensa si no existe ya para ese premio
+        IF NOT EXISTS (SELECT 1 FROM Recompensa WHERE usuarioID = NEW.usuarioID AND premioID = premio_id) THEN
+            INSERT INTO Recompensa (usuarioID, premioID) VALUES (NEW.usuarioID, premio_id);
+        END IF;
+    END LOOP;
+
+    CLOSE premios_cursor;
+END$$
+DELIMITER ;
 
