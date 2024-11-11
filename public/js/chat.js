@@ -1,6 +1,10 @@
 // let localUser = localStorage.getItem("user");
 import socketData from "./socket.js";
 
+let queryString = window.location.search;
+let urlParams = new URLSearchParams(queryString);
+let roomId = urlParams.get('roomId');
+
 // async function getChatRoom(my_email, contact_email) {
 //     const myHeaders = new Headers();
 //     myHeaders.append("Content-Type", "application/json");
@@ -18,6 +22,87 @@ import socketData from "./socket.js";
 //     console.log(res);
 //     return res['chatId'];
 // }
+
+// chat.js
+const socket = io();
+
+const callButton = document.getElementById("call-btn");
+const recipientId = 'user123'; 
+
+callButton.addEventListener("click", () => {
+    if (recipientId) { // Comprueba si recipientId está definido
+        window.location.href = `./VIDEOLLAMADA 3.0.HTML?roomId=${recipientId}`; // Redirige con el ID en la URL
+    } else {
+        console.error("Error: No se ha seleccionado un destinatario para la llamada.");
+    }
+});
+
+async function startCall() {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    document.getElementById("local-video").srcObject = stream;
+
+    const peer = new RTCPeerConnection(servers);
+    stream.getTracks().forEach(track => peer.addTrack(track, stream));
+
+    peer.onicecandidate = (event) => {
+        if (event.candidate) {
+            socket.emit("callUser", {
+                to: recipientId, // ID del usuario con quien se quiere iniciar la llamada
+                from: socket.id,
+                signal: peer.localDescription
+            });
+        }
+    };
+
+    peer.ontrack = (event) => {
+        document.getElementById("remote-video").srcObject = event.streams[0];
+    };
+
+    socket.on("callAccepted", (signal) => {
+        peer.setRemoteDescription(new RTCSessionDescription(signal));
+    });
+
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+
+    socket.emit("callUser", { to: recipientId, signal: offer });
+}
+
+socket.on("callIncoming", (data) => {
+    acceptCall(data);
+});
+
+async function acceptCall(data) {
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    document.getElementById("local-video").srcObject = stream;
+
+    const peer = new RTCPeerConnection(servers);
+    stream.getTracks().forEach(track => peer.addTrack(track, stream));
+
+    peer.ontrack = (event) => {
+        document.getElementById("remote-video").srcObject = event.streams[0];
+    };
+
+    peer.setRemoteDescription(new RTCSessionDescription(data.signal));
+    const answer = await peer.createAnswer();
+    await peer.setLocalDescription(answer);
+
+    socket.emit("acceptCall", { to: data.from, signal: answer });
+}
+
+function endCall() {
+    socket.emit("endCall", { to: recipientId });
+    const localVideo = document.getElementById("local-video");
+    const remoteVideo = document.getElementById("remote-video");
+
+    localVideo.srcObject.getTracks().forEach(track => track.stop());
+    remoteVideo.srcObject = null;
+}
+
+socket.on("callEnded", () => {
+    endCall();
+});
+
 
 (async function () {
     const app = document.querySelector(".chat-content");
@@ -138,3 +223,31 @@ import socketData from "./socket.js";
         messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
     }
 })();
+
+
+document.querySelectorAll('.user-item').forEach(item => {
+    item.addEventListener('click', (e) => {
+        recipientId = e.target.getAttribute('data-id'); // Aquí asignamos el ID del usuario seleccionado
+        openChatWithUser(recipientId); // Función para abrir el chat privado
+    });
+});
+
+window.addEventListener("DOMContentLoaded", async () => {
+    // Extrae roomId de la URL
+    let queryString = window.location.search;
+    let urlParams = new URLSearchParams(queryString);
+    let roomId = urlParams.get('roomId'); 
+
+    // Comprueba si roomId está definido antes de continuar
+    if (!roomId) {
+        console.error("No se encontró el roomId en la URL.");
+        return;
+    }
+
+    // Configura la videollamada
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    document.getElementById("local-video").srcObject = stream;
+    
+    // Configura los eventos y conexión RTCPeerConnection
+    initVideoCall(roomId, stream); // Define la función `initVideoCall` para gestionar la conexión
+});

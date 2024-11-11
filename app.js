@@ -43,6 +43,18 @@ io.on("connection", function (socket) {
 
         console.log(`${message} se envió a la sala ${roomId}`);
     });
+
+    socket.on("callUser", (data) => {
+        io.to(data.to).emit("callIncoming", { from: data.from, signal: data.signal });
+    });
+
+    socket.on("acceptCall", (data) => {
+        io.to(data.to).emit("callAccepted", data.signal);
+    });
+
+    socket.on("endCall", (data) => {
+        io.to(data.to).emit("callEnded");
+    });
 })
 
 

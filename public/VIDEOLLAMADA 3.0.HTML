@@ -4,39 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Videollamada</title>
-    <link rel="stylesheet" href="VIDEOLLAMADA 3.0.CSS">
+    <link rel="stylesheet" href="css/VIDEOLLAMADA 3.0.CSS">
+    <script src="https://cdn.jsdelivr.net/npm/agora-rtm-sdk@1.5.1"></script>
 </head>
 <body>
     <!-- Contenedor principal para la videollamada -->
     <div class="videocall-container">
-        <!-- Video del usuario local -->
-        <div class="video-box local-video">
-            <video autoplay muted></video>
-            <div class="username-tag">Tu Nombre</div>
-        </div>
-        <!-- Video de la otra persona -->
-        <div class="video-box remote-video">
-            <video autoplay></video>
-            <div class="username-tag">Nombre del Contacto</div>
-        </div>
+       <!-- Video del usuario local -->
+    <div class="video-box local-video">
+        <video id="local-video" autoplay muted></video>
+        <div class="username-tag">Tu Nombre</div>
+    </div>
+    <!-- Video del usuario remoto -->
+    <div class="video-box remote-video">
+        <video id="remote-video" autoplay></video>
+        <div class="username-tag">Nombre del Contacto</div>
+    </div>
+        
     </div>
 
     <!-- Controles de la videollamada -->
     <div class="controls">
         <!-- Botón de silenciar/activar micrófono -->
         <button class="control-btn" id="mute-btn">
-            <img src="microfono.png" alt="Activar/desactivar micrófono" class="icon mic-icon">
+            <img src="Images/microfono.png" alt="Activar/desactivar micrófono" class="icon mic-icon">
         </button>
 
         <!-- Botón de activar/desactivar cámara -->
         <button class="control-btn" id="camera-btn">
-            <img src="camara.png" alt="Activar/desactivar cámara" class="icon camera-icon">
+            <img src="Images/camara.png" alt="Activar/desactivar cámara" class="icon camera-icon">
         </button>
 
         <!-- Botón de finalizar llamada -->
         <button class="control-btn" id="end-call-btn">
-            <img src="colgar1.png" alt="Finalizar llamada" class="icon end-call-icon">
+            <img src="Images/colgar1.png" alt="Finalizar llamada" class="icon end-call-icon">
         </button>
     </div>
+
+
+    <script type="module" src="js/videcallScript.js"></script>
+
 </body>
 </html>
