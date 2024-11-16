@@ -130,11 +130,17 @@ async function changeChat(_id) {
     let messages = res['messages'];
     console.log(res);
 
+    let tituloActualHTML = user.tituloActual 
+                    ? `<h4>${user.tituloActual}</h4>` 
+                    : '';
+
     const nombreContacto = document.getElementById('contact-name');
     nombreContacto.innerHTML =
         `
     <img src="Images/profile-genius.jpg" alt="Code Genius" class="header-icon">
-    ${user['nombreUsuario']}
+    ${user['nombreUsuario']} ${user['nombreApellido']}
+
+    ${tituloActualHTML}
     `;
 
     if (messages) {
