@@ -19,20 +19,21 @@ const rewardsMod = require('./Modules/RewardsModule.js');
 app.use(express.json());
 app.use('/tasks', taskRoutes);
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Server corriendo en el puerto ${PORT}`)
-});
+// app.listen(PORT, () => {
+//     console.log(`Server corriendo en el puerto ${PORT}`)
+// });
 
 module.exports = app;
 
 app.use(express.static(path.join(__dirname + "/public")));
 
 app.use(session({
-    secret: '123456',
-    cookie: { maxAge: 300000 },
-    resave: true,
-    saveUninitialized: true
+    secret: '123456',               // Usar un valor secreto seguro (puedes usar algo aleatorio y largo)
+    resave: false,                  // No resguardar la sesión si no ha sido modificada
+    saveUninitialized: false,       // No guardar una sesión vacía si no ha sido modificada
+    cookie: { maxAge: 600000 }      // Tiempo máximo para la cookie de sesión (600000ms = 10 minutos)
 }));
+
 
 io.on("connection", function (socket) {
 
@@ -51,7 +52,7 @@ io.on("connection", function (socket) {
     socket.on("chat", function (message, roomId) {
         socket.broadcast.to(roomId).emit("chat", message,);
 
-        console.log(`${message} se envió a la sala ${roomId}`);
+        console.log(`${message.text} se envió a la sala ${roomId}`);
     });
 
     socket.on("callUser", (data) => {
@@ -242,6 +243,34 @@ app.post('/save-private-message', async (req, res) => {
     }
 });
 
+app.post('/save-group-message', async (req, res) => {
+    try {
+        let data = req.body;
+        if (data['file'] === undefined) {
+            data['file'] = null;
+        }
+        if (data['grupoId']) {
+            let message = await groupMod.saveGroupMessage(data['message'].text, data['file'], req.session.user['userId'], data['grupoId']);
+        }
+        res.status(200).json({ data: 'almacenado correctamente' });
+    } catch (error) {
+        console.log('/save-group-message (ERROR):', error)
+    }
+})
+
+
+app.post('/get-group-messages', async (req, res) => {
+    try {
+        let data = req.body;
+
+        let messages = await groupMod.getGroupChat(data.grupoID);
+
+        res.status(200).json({ data: messages });
+    } catch (error) {
+        console.log('/save-group-message (ERROR):', error)
+    }
+})
+
 app.post('/create-group', async (req, res) => {
     try {
         let data = req.body;
@@ -284,7 +313,7 @@ app.get('/get-groups', async (req, res) => {
 // DATOS DEL PERFIL DE USUARIO
 
 app.get('/get-perfilUser', async (req, res) => {
-    try {     
+    try {
         console.log("User ID:", req.session.user?.userId); // Debug para revisar userId
 
         let data = await userMod.findUserbyId(req.session.user['userId']);
@@ -322,7 +351,7 @@ app.get('/get-unlocked-titles', async (req, res) => {
 app.get('/get-next-reward-points', async (req, res) => {
     try {
         const nextPoints = await rewardsMod.getNextRewardPoints(req.session.user.userId);
-        res.json({ data: { nextPoints: nextPoints || 0 } }); 
+        res.json({ data: { nextPoints: nextPoints || 0 } });
     } catch (error) {
         res.status(500).json({ error: 'Error al obtener puntos para la próxima recompensa' });
     }

@@ -353,6 +353,38 @@ SELECT g.grupoID, g.nombreGrupo, g.descripcion, g.creadorID
         WHERE ug.usuarioID = p_userID AND g.tipoGrupo = 1;
 END //
 DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE GRUPO_GuardarMensaje(
+p_grupoID INT,
+p_usuarioID INT,
+p_mensaje TEXT,
+p_archivo LONGBLOB
+)
+BEGIN
+	DECLARE _contenidoID INT;
+    DECLARE _mensajeID INT;
+	INSERT INTO Contenido (texto, archivo) VALUES (p_mensaje, p_archivo);
+	SET _contenidoID = LAST_INSERT_ID();
+    INSERT INTO Mensaje (usuarioID, contenidoID, fecha) VALUES (p_usuarioID, _contenidoID, now());
+    SET _mensajeID = LAST_INSERT_ID();
+    INSERT INTO Mensaje_Grupo(mensajeID, grupoID) VALUES (_mensajeID, p_grupoID);
+    
+END //
+DELIMITER ;
+
+DELIMITER //
+CREATE PROCEDURE GRUPO_ObtenerMensajes(
+IN p_grupoID INT)
+BEGIN
+SELECT u.usuarioID, correo, nombreUsuario, nombreApellido, texto, archivo, fecha FROM Mensaje_Grupo mg
+		INNER JOIN Mensaje m ON m.mensajeID = mg.mensajeID
+        INNER JOIN Contenido c ON c.contenidoID = m.contenidoID
+        INNER JOIN Usuario u ON u.usuarioID = m.usuarioID
+        WHERE mg.grupoID = p_grupoID
+        ORDER BY 7 ASC;
+END //
+DELIMITER ;
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de USUARIO-GRUPO------------------------------------------------------------------
 -- ---------------------------------------------------------------------------------------------------------------------

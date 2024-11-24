@@ -80,12 +80,13 @@
                 Mis Grupos
             </div>
         </div>
-        <div id="message-container">
+        <!-- se agregó la clase para el espacio del chat -->
+        <div id="message-container" class="chat-messages">
 
             <div id="general" class="Mural">
-
                 <div class="message">
-                    <p><strong>José De Los Rios</strong> - 15/10/2024 14:23</p><br>
+                    <p><strong>José De Los Rios</strong> - 15/10/2024 14:23</p>
+                    <br>
                     <p>Iniciaré la Comunicación 1 a 1.</p>
                 </div>
 
@@ -119,7 +120,7 @@
         </div>
     </div>
     <!-- Barra lateral (movida a la derecha) -->
-    <div id="sidebar">
+    <div id="sidebar" style="display: none;">
         <h3>Menú</h3>
         <ul>
             <li><a href="#" onclick="mostrarSeccion('general')">General</a></li>
@@ -174,8 +175,11 @@
 
     </div>
     <script type="module" src="socket.io/socket.io.js"></script>
-    <script src="js/crearGrupo.js"></script>
-    <script src="js/mural.js"></script>
+    <script type="module" src="js/session.js"></script>
+
+    <!-- <script src="js/crearGrupo.js"></script> -->
+
+    <script type="module" src="js/mural.js"></script>
     <script>
         function mostrarSeccion(seccion) {
             document.querySelectorAll('.Mural').forEach(section => section.style.display = 'none');

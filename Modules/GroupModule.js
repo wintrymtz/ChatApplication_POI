@@ -33,7 +33,28 @@ const groupMod = {
             console.error("Error en la consulta:", error);
             throw error; // Lanzar el error para manejarlo en la ruta si es necesario
         }
-    }
+    },
+
+    saveGroupMessage: async function (message, file, idUser, idGroup) {
+        try {
+
+            const [rows] = await db.execute(`CALL GRUPO_GuardarMensaje(?, ?, ?, ?)`, [idGroup, idUser, message, file]);
+            return rows[0]; // Devolver los datos de la consulta
+        } catch (error) {
+            console.error("Error en la consulta:", error);
+            throw error; // Lanzar el error para manejarlo en la ruta si es necesario
+        }
+    },
+
+    getGroupChat: async function (idGrupo) {
+        try {
+            const [rows] = await db.execute(`CALL GRUPO_ObtenerMensajes(?)`, [idGrupo]);
+            return rows[0]; // Devolver los datos de la consulta
+        } catch (error) {
+            console.error("Error en la consulta:", error);
+            throw error; // Lanzar el error para manejarlo en la ruta si es necesario
+        }
+    },
 }
 
 module.exports = groupMod;

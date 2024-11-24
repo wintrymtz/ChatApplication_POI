@@ -8,7 +8,6 @@ function iniciarSesion() {
     let user = document.getElementById("username").value;
     let password = document.getElementById("password").value;
     // localStorage.removeItem("user");
-    // localStorage.setItem("user", user);
 
     if (formulario.checkValidity()) {
         serverFindUser(user, password);

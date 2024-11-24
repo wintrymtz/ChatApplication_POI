@@ -27,7 +27,7 @@ let roomId = urlParams.get('roomId');
 const socket = io();
 
 const callButton = document.getElementById("call-btn");
-const recipientId = 'user123'; 
+const recipientId = 'user123';
 
 callButton.addEventListener("click", () => {
     if (recipientId) { // Comprueba si recipientId está definido
@@ -152,10 +152,12 @@ socket.on("callEnded", () => {
     // });
 
     app.querySelector(".chat-input #send-message").addEventListener("click", function () {
-        let message = app.querySelector(".chat-content #message-input").value;
+        // let message = app.querySelector(".chat-content #message-input").value;
+        let message = document.getElementById("message-input").value;
         if (message.lenght == 0) {
             return;
         }
+        console.log('el valor del input:', message);
 
         console.log('se mandó el mensaje:', message);
         renderMessage("my", {
@@ -178,6 +180,7 @@ socket.on("callEnded", () => {
     });
 
     function renderMessage(type, message) {
+        console.log('intentnaod renderizar:', message);
         let messageContainer = app.querySelector(".chat-content .chat-messages");
         if (type == "my") {
             let container = document.createElement("div");
@@ -236,7 +239,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     // Extrae roomId de la URL
     let queryString = window.location.search;
     let urlParams = new URLSearchParams(queryString);
-    let roomId = urlParams.get('roomId'); 
+    let roomId = urlParams.get('roomId');
 
     // Comprueba si roomId está definido antes de continuar
     if (!roomId) {
@@ -247,7 +250,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     // Configura la videollamada
     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
     document.getElementById("local-video").srcObject = stream;
-    
+
     // Configura los eventos y conexión RTCPeerConnection
     initVideoCall(roomId, stream); // Define la función `initVideoCall` para gestionar la conexión
 });

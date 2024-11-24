@@ -4,27 +4,25 @@ let arrayContactos = document.getElementsByClassName('contact-item');
 let destinatarioID;
 
 
-async function validateAuth() {
-    fetch('/checkSession')
-        .then(response => response.json())
-        .then(data => {
-            if (data.authenticated) {
-                console.log('Sesión activa: ', data.user);
-                socketData.username = data.user['username'];
-                socketData.id = data.user['userId'];
-                updateUser();
-                let newRoomId = createRoomId(socketData.id, socketData.id);
-                socketData.socket.emit("joinRoom", socketData.username, newRoomId);
-                socketData.roomId = newRoomId;
-                changeChat(socketData.id);
-            } else {
-                window.location.href = '/';
-                console.log('No hay sesión activa');
-            }
-        });
-}
-
-validateAuth();
+// async function validateAuth() {
+//     fetch('/checkSession')
+//         .then(response => response.json())
+//         .then(data => {
+//             if (data.authenticated) {
+//                 console.log('Sesión activa: ', data.user);
+//                 socketData.username = data.user['username'];
+//                 socketData.id = data.user['userId'];
+//                 updateUser();
+//                 let newRoomId = createRoomId(socketData.id, socketData.id);
+//                 socketData.socket.emit("joinRoom", socketData.username, newRoomId);
+//                 socketData.roomId = newRoomId;
+//                 changeChat(socketData.id);
+//             } else {
+//                 window.location.href = '/';
+//                 console.log('No hay sesión activa');
+//             }
+//         });
+// }
 
 function getUsers() {
     // let response = await fetch();
@@ -40,7 +38,7 @@ function getUsers() {
                     <img src="Images/profile1.jpg" alt="Liam Brown">
                     Liam JKSAHDKJHDKJAS
                     </div> `
-    container.appendChild(newUser);
+    // container.appendChild(newUser);
 }
 
 // arrayContactos.forEach((e) => {
@@ -130,9 +128,9 @@ async function changeChat(_id) {
     let messages = res['messages'];
     console.log(res);
 
-    let tituloActualHTML = user.tituloActual 
-                    ? `<h4>${user.tituloActual}</h4>` 
-                    : '';
+    let tituloActualHTML = user.tituloActual
+        ? `<h4>${user.tituloActual}</h4>`
+        : '';
 
     const nombreContacto = document.getElementById('contact-name');
     nombreContacto.innerHTML =
@@ -190,9 +188,6 @@ function renderMessages(objUser, objMessage) {
     })
 }
 
-function updateUser() {
-    document.getElementById('current-user').innerHTML = socketData.username;
-}
 
 function createRoomId(s_id1, s_id2) {
     let id1 = parseInt(s_id1);
@@ -258,8 +253,5 @@ document.querySelector(".chat-input #send-message").addEventListener("click", fu
 
 });
 
-
-
-updateUser();
 
 getUsers();
