@@ -115,7 +115,7 @@ CREATE TABLE Asignar_Tarea (
     FOREIGN KEY (tareaID) REFERENCES Tarea(tareaID)
 );
 
-
+ALTER TABLE Tarea ADD COLUMN file VARCHAR(255);
 
 
 
