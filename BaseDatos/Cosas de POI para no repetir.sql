@@ -62,6 +62,10 @@ CALL USUARIOS_ActualizarTitulo(4, 2);
 
 UPDATE Usuario SET puntos = 220 WHERE usuarioID = 4;
 
+UPDATE Usuario SET correo = 'guillermo.morin04@gmail.com' WHERE usuarioID = 1;
+UPDATE Usuario SET contrasena = 'Guillermo2004.' WHERE usuarioID = 1;
+UPDATE Usuario SET correo = 'josejaime.riosm@gmail.com' WHERE usuarioID = 2;
+
 DELETE FROM Grupo WHERE grupoID = 5;
 
 DROP PROCEDURE IF EXISTS USUARIOS_ObtenerTituloActual;

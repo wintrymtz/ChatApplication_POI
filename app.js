@@ -15,6 +15,7 @@ const userMod = require('./Modules/UserModule.js');
 const chatMod = require('./Modules/ChatModule.js');
 const groupMod = require('./Modules/GroupModule.js');
 const rewardsMod = require('./Modules/RewardsModule.js');
+const transporter = require('./Modules/mailServiceModule.js');
 
 app.use(express.json());
 app.use('/tasks', taskRoutes);
@@ -345,6 +346,44 @@ app.post('/update-user-title', async (req, res) => {
         res.status(500).json({ error: 'Error al actualizar el título' });
     }
 });
+
+
+
+
+// Solicitud para enviar el correo
+app.post('/send-mail', async (req, res) => {
+    const { to, subject, message } = req.body;
+    try {
+        const info = await transporter.sendMail({
+            from: '"Mi Aplicación" <tu-email@example.com>',
+            to,
+            subject,
+            text: message
+        });
+        res.json({ success: true, message: 'Correo enviado correctamente', info });
+    } catch (error) {
+        console.error('Error al enviar correo:', error);
+        res.status(500).json({ success: false, message: 'Error al enviar el correo' });
+    }
+});
+
+
+
+
+//Solicitud para obtener el correo
+app.get('/get-user-email', (req, res) => {
+    if (req.session.authenticated) {
+        res.json({ success: true, email: req.session.user.Email });
+    } else {
+        res.json({ success: false, message: 'Usuario no autenticado' });
+    }
+});
+
+
+
+
+
+
 
 
 
