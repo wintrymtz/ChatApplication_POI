@@ -9,11 +9,21 @@ app.use(express.json()); // Para soportar solicitudes con JSON
 const io = require("socket.io")(server);
 console.log('Servidor iniciado');
 
+const taskRoutes = require('./Modules/TaskRoutesModule.js')
 const db = require('./database.js');
 const userMod = require('./Modules/UserModule.js');
 const chatMod = require('./Modules/ChatModule.js');
 const groupMod = require('./Modules/GroupModule.js');
 const rewardsMod = require('./Modules/RewardsModule.js');
+
+app.use(express.json());
+app.use('/tasks', taskRoutes);
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => {
+    console.log(`Server corriendo en el puerto ${PORT}`)
+});
+
+module.exports = app;
 
 app.use(express.static(path.join(__dirname + "/public")));
 
