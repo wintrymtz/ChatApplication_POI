@@ -251,3 +251,38 @@ window.addEventListener("DOMContentLoaded", async () => {
     // Configura los eventos y conexión RTCPeerConnection
     initVideoCall(roomId, stream); // Define la función `initVideoCall` para gestionar la conexión
 });
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////   UBICACIÓN DEL USUARIO   //////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const locationButton = document.getElementById('location-btn');
+const messageInput = document.getElementById('message-input');
+
+locationButton.addEventListener('click', () => {
+
+    // Verifica si el navegador soporta la API paara obtener la ubicación
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // Generamos el enlace de Google Maps con la ubicación
+            const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            messageInput.value = googleMapsLink;
+        }, (error) => {
+            console.error("Error obteniendo la ubicación: ", error);
+            alert("No se pudo obtener la ubicación. Por favor, verifica los permisos de ubicación en tu navegador.");
+        });
+    } else {
+        alert("La Geolocalización no está soportada en tu navegador.");
+    }
+});
+
+
+

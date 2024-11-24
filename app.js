@@ -19,9 +19,9 @@ const rewardsMod = require('./Modules/RewardsModule.js');
 app.use(express.json());
 app.use('/tasks', taskRoutes);
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => {
-    console.log(`Server corriendo en el puerto ${PORT}`)
-});
+// app.listen(PORT, () => {
+//     console.log(`Server corriendo en el puerto ${PORT}`)
+// });
 
 module.exports = app;
 
