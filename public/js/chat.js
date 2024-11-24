@@ -254,3 +254,96 @@ window.addEventListener("DOMContentLoaded", async () => {
     // Configura los eventos y conexión RTCPeerConnection
     initVideoCall(roomId, stream); // Define la función `initVideoCall` para gestionar la conexión
 });
+
+
+
+
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////   UBICACIÓN DEL USUARIO   //////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const locationButton = document.getElementById('location-btn');
+const messageInput = document.getElementById('message-input');
+
+locationButton.addEventListener('click', () => {
+
+    // Verifica si el navegador soporta la API paara obtener la ubicación
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition((position) => {
+            
+            const latitude = position.coords.latitude;
+            const longitude = position.coords.longitude;
+            
+            // Generamos el enlace de Google Maps con la ubicación
+            const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
+            messageInput.value = googleMapsLink;
+        }, (error) => {
+            console.error("Error obteniendo la ubicación: ", error);
+            alert("No se pudo obtener la ubicación. Por favor, verifica los permisos de ubicación en tu navegador.");
+        });
+    } else {
+        alert("La Geolocalización no está soportada en tu navegador.");
+    }
+});
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////// Pop-up para donde aparecerá donde el usuario puede escribir el correo /////////////////////////
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//Pop up
+// Obtener el botón y el contenedor del pop-up
+const mailBtn = document.getElementById('mail-btn');
+const emailPopup = document.getElementById('emailPopup');
+const closePopupBtn = document.getElementById('closePopup');
+
+// Mostrar el pop-up
+mailBtn.addEventListener('click', () => {
+    emailPopup.style.display = 'block';
+});
+
+// Ocultar el pop-up
+closePopupBtn.addEventListener('click', () => {
+    emailPopup.style.display = 'none';
+});
+
+// Función adicional para cerrar el pop-up después de enviar el correo
+function closePopup() {
+    emailPopup.style.display = 'none';
+}
+
+
+
+//Enviar correo
+document.getElementById('emailForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const to = document.getElementById('toEmail').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+
+    try {
+        fetch('/send-mail', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ to: recipientEmail, subject: emailSubject, message: emailMessage })
+        });
+
+        const result = await response.json();
+        if (result.success) {
+            alert('Correo enviado exitosamente');
+            closePopup(); // Cierra el pop-up después del envío exitoso
+        } else {
+            alert('Error al enviar el correo: ' + result.message);
+        }
+    } catch (error) {
+        console.error('Error al enviar el correo:', error);
+        alert('Error al enviar el correo');
+    }
+});
+
+
