@@ -254,7 +254,7 @@ BEGIN
 		(p_remitente, _grupoID);
 		END IF;
 		
-		INSERT INTO Contenido(texto, archivo, escriptacion) VALUES (p_mensaje, p_archivo, p_encriptado);
+		INSERT INTO Contenido(texto, archivo, encriptacion) VALUES (p_mensaje, p_archivo, p_encriptado);
 		SET _contenidoID = LAST_INSERT_ID();     
 		INSERT INTO Mensaje (usuarioID, contenidoID, fecha) VALUES (p_remitente, _contenidoID, now());
 		SET _mensajeID = LAST_INSERT_ID();     
