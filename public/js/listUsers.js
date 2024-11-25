@@ -2,6 +2,7 @@ import socketData from "./socket.js";
 
 let arrayContactos = document.getElementsByClassName('contact-item');
 let destinatarioID;
+let otherUserID;
 
 
 // async function validateAuth() {
@@ -147,11 +148,20 @@ async function changeChat(_id) {
     ${tituloActualHTML}
     `;
 
+    otherUserID = user.usuarioID;
+    // console.log(otherUserID)
+    if (user.actividad == 1) {
+        nombreContacto.innerHTML += `<div id='actividad' class="circle" style="background-color: rgb(0, 206, 0);"></div>`;
+    } else {
+        nombreContacto.innerHTML += `<div id='actividad' class="circle" style="background-color: rgb(240, 0, 0);"></div>`;
+    }
+
     if (messages) {
         renderMessages(user, messages);
     }
 
     console.log('Obteniendo chat...', user, messages);
+
 }
 
 function renderMessages(objUser, objMessage) {
@@ -287,6 +297,22 @@ async function getHistory() {
     console.log('historial', res);
     renderHistory(res.data);
 }
+
+//conexion
+socketData.socket.on('user-connected', (data) => {
+    console.log(`Usuario con ID ${data.usuario} se ha conectado.`);
+    if (otherUserID == data.usuario) {
+        console.log(`Este usuario se ha conectado.`);
+
+        let circle = document.getElementById("actividad");
+        if (data.status == 1) {
+            circle.style.backgroundColor = "rgb(0, 206, 0)";
+        } else {
+            circle.style.backgroundColor = "rgb(240, 0, 0)";
+
+        }
+    }
+});
 
 
 function renderHistory(contacts) {

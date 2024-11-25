@@ -88,6 +88,7 @@ app.get('/checkSession', (req, res) => {
 app.post('/logout', (req, res) => {
 
     userMod.activeUser(false, req.session.user.userId);
+    io.emit('user-connected', { usuario: req.session.user.userId, status: false });
 
     req.session.destroy((err) => {
         if (err) {
@@ -149,6 +150,8 @@ app.post('/login', async (req, res) => {
                 userEmail: user['correo'],
                 username: user['nombreUsuario']
             }
+
+            io.emit('user-connected', { usuario: user['usuarioID'], status: true });
             userMod.activeUser(true, req.session.user.userId);
 
             res.status(200).json({ success: true, message: 'Validación de usuario correcta', session: req.session.user });

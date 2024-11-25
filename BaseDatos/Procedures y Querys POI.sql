@@ -88,7 +88,8 @@ BEGIN
            U.nombreApellido, 
            U.correo, 
            U.contrasena,
-           U.puntos, 
+           U.puntos,
+           U.actividad,
            P.titulo AS tituloActual
     FROM Usuario U
     LEFT JOIN Premio P ON U.tituloID = P.premioID
