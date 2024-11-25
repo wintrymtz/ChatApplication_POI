@@ -60,8 +60,6 @@
         <div class="task-content">
             <h2>Crear Tarea</h2>
             <div class="task-form">
-                <label for="task-title">Título de la tarea:</label>
-                <input type="text" id="task-title" placeholder="Escribe el título de la tarea...">
                 
                 <label for="task-desc">Descripción de la tarea:</label>
                 <textarea id="task-desc" placeholder="Escribe la descripción de la tarea..."></textarea>
@@ -72,6 +70,7 @@
                 <label for="task-deadline">¿Cuándo se cierra la tarea?</label>
                 <input type="date" id="task-deadline">
                 
+                <br><br><br>
                 <button id="submit-btn">Enviar</button>
             </div>
         </div>
@@ -92,7 +91,45 @@
         </div>
     </div>
 
+    <script>
+        document.getElementById('submit-btn').addEventListener('click', async () => {
+            // Obtenemos los valores de los inputs
+            const instrucciones = document.getElementById('task-desc').value;
+            const puntosTarea = document.getElementById('task-cost').value;
+            const vencimiento = document.getElementById('task-deadline').value;
+            const grupoID = localStorage.getItem('grupoID'); 
 
+            if (!instrucciones || isNaN(puntosTarea) || !vencimiento) {
+                alert("Por favor, completa todos los campos.");
+                return;
+            }
+    
+            if (!grupoID) {
+                alert('Error: Vuelva a entrar al grupo para crear la tarea.');
+                return;
+            }
+    
+            try {
+                // Realizamos la solicitud para crear la tarea
+                const response = await fetch('/tasks/create', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ instrucciones, puntosTarea, vencimiento, grupoID })
+                });
+    
+                const data = await response.json();
+                if (data.success) {
+                    alert(data.message); // Tarea creada con éxito
+                    window.location.href = "muralV2.html"; 
+                } else {
+                    alert('Error al crear tarea: ' + data.message);
+                }
+            } catch (error) {
+                alert('Error al conectar con el servidor');
+            }
+        });
+    </script>
+    
 
     <script>
 
