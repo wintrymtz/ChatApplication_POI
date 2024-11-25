@@ -27,7 +27,7 @@ let roomId = urlParams.get('roomId');
 const socket = io();
 
 const callButton = document.getElementById("call-btn");
-const recipientId = 'user123';
+const recipientId = socketData.roomId;
 
 callButton.addEventListener("click", () => {
     if (recipientId) { // Comprueba si recipientId está definido
