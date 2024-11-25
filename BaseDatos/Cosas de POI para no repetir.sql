@@ -10,6 +10,33 @@ SELECT * FROM Mensaje_Grupo;
 SELECT * FROM Tarea;
 SELECT * FROM Asignar_Tarea;
 
+SELECT u.usuarioID, nombreUsuario, correo, foto, actividad FROM Usuario u
+		INNER JOIN Usuario_Grupo ug ON ug.usuarioID = u.usuarioID
+        INNER JOIN 
+        
+        SELECT * FROM Usuario u
+		INNER JOIN Usuario_Grupo ug ON ug.usuarioID = u.usuarioID
+        INNER JOIN 
+
+SELECT * FROM Mensaje m
+		INNER JOIN mensaje_grupo mg ON mg.mensajeID = m.mensajeID
+        INNER JOIN Grupo g ON g.grupoID = mg.grupoID
+        WHERE m.usuarioID = 1 AND g.tipoGrupo = 'mensaje'
+        
+DELIMITER //
+CREATE PROCEDURE USUARIO_ObtenerHistorial(
+IN p_usuarioID INT
+)
+BEGIN
+	DECLARE GroupID INT;
+    
+    SELECT m.usuarioID, mg.grupoID FROM Mensaje m INNER JOIN Mensaje_Grupo mg ON mg.mensajeID = m.mensajeID
+							INNER JOIN Grupo g ON g.grupoID = mg.grupoID
+    WHERE m.usuarioID = 1 AND g.tipoGrupo = 'mensaje'
+    GROUP BY  2
+END;
+DELIMITER ;
+
 DROP TABLE Asignar_Tarea;
 DROP TABLE Tarea;
 DROP TABLE Mensaje_Grupo;

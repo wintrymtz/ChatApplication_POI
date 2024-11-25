@@ -159,9 +159,6 @@ socket.on("callEnded", () => {
         if (message.lenght == 0) {
             return;
         }
-        console.log('el valor del input:', message);
-
-        console.log('se mandó el mensaje:', message);
         renderMessage("my", {
             username: uname,
             text: message

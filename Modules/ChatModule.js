@@ -12,9 +12,9 @@ const chatMod = {
         }
     },
 
-    savePrivateMessage: async function (message, file, remitenteID, destinatarioID) {
+    savePrivateMessage: async function (message, file, remitenteID, destinatarioID, encriptado) {
         try {
-            const [rows] = await db.execute(`CALL CHAT_EnviarMensajePrivado(?, ?, ?, ?)`, [message, file, remitenteID, destinatarioID]);
+            const [rows] = await db.execute(`CALL CHAT_EnviarMensajePrivado(?, ?, ?, ?, ?)`, [message, file, remitenteID, destinatarioID, encriptado]);
             return rows[0]; // Devolver los datos de la consulta
         } catch (error) {
             console.error("Error en la consulta:", error);

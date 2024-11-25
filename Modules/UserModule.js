@@ -34,7 +34,7 @@ const usuarioMod = {
 
     searchUsers: async function (_value) {
         try {
-            const [rows] = await db.execute(`SELECT usuarioID, nombreUsuario, correo, foto FROM Usuario WHERE nombreUsuario LIKE ?`, [`%${_value}%`]);
+            const [rows] = await db.execute(`SELECT usuarioID, nombreUsuario, correo, foto, actividad FROM Usuario WHERE nombreUsuario LIKE ?`, [`%${_value}%`]);
             return rows; // Devolver los datos de la consulta
         } catch (error) {
             console.error("Error en la consulta:", error);
@@ -49,6 +49,15 @@ const usuarioMod = {
         } catch (error) {
             console.error("Error en la consulta:", error);
             throw error; // Lanzar el error para manejarlo en la ruta si es necesario
+        }
+    },
+
+    activeUser: async function (active, idUser) {
+        try {
+            await db.execute(`UPDATE Usuario SET actividad = ? WHERE usuarioID = ?`, [active, idUser])
+        }
+        catch (error) {
+            console.log(error)
         }
     }
 }

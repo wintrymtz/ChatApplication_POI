@@ -69,7 +69,7 @@ CREATE PROCEDURE USUARIOS_BuscarUsuarios(
     IN p_busqueda VARCHAR(100) -- Parámetro de búsqueda
 )
 BEGIN
-    SELECT CONCAT(nombreUsuario, ' ', nombreApellido) AS nombreCompleto
+    SELECT CONCAT(nombreUsuario, ' ', nombreApellido) AS nombreCompleto, actividad
     FROM Usuario
     WHERE CONCAT(nombreUsuario, ' ', nombreApellido) LIKE CONCAT('%', p_busqueda, '%');
 END $$
@@ -217,7 +217,8 @@ CREATE PROCEDURE CHAT_EnviarMensajePrivado(
 IN p_mensaje TEXT,
 IN p_archivo LONGBLOB,
 IN p_remitente INT,
-IN p_destinatario INT
+IN p_destinatario INT,
+IN p_encriptado BOOL
 )
 BEGIN
 	declare _grupoID int;
@@ -252,7 +253,7 @@ BEGIN
 		(p_remitente, _grupoID);
 		END IF;
 		
-		INSERT INTO Contenido(texto, archivo) VALUES (p_mensaje, p_archivo);
+		INSERT INTO Contenido(texto, archivo, escriptacion) VALUES (p_mensaje, p_archivo, p_encriptado);
 		SET _contenidoID = LAST_INSERT_ID();     
 		INSERT INTO Mensaje (usuarioID, contenidoID, fecha) VALUES (p_remitente, _contenidoID, now());
 		SET _mensajeID = LAST_INSERT_ID();     
@@ -282,7 +283,7 @@ declare _cantidad INT;
 
         
         IF _cantidad = 2 THEN
-	SELECT m.usuarioID, c.texto, c.archivo, m.fecha FROM Contenido c
+	SELECT m.usuarioID, c.texto, c.archivo, m.fecha, c.encriptacion FROM Contenido c
 			INNER JOIN Mensaje m ON c.contenidoID = m.contenidoID
 			INNER JOIN mensaje_grupo mg ON mg.mensajeID = m.mensajeID
 			INNER JOIN grupo g ON g.grupoID = mg.grupoID

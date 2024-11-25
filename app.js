@@ -50,6 +50,10 @@ io.on("connection", function (socket) {
         console.log(`${socket.id} salió de la sala ${roomId}`);
     });
 
+    socket.on('disconnect', () => {
+
+    })
+
     socket.on("chat", function (message, roomId) {
         socket.broadcast.to(roomId).emit("chat", message,);
 
@@ -82,10 +86,14 @@ app.get('/checkSession', (req, res) => {
 });
 
 app.post('/logout', (req, res) => {
+
+    userMod.activeUser(false, req.session.user.userId);
+
     req.session.destroy((err) => {
         if (err) {
             return res.status(500).json({ success: false, message: 'Error al cerrar sesión' });
         }
+
         // Redirige al usuario o responde con un mensaje de éxito
         res.status(200).json({ success: true, message: 'Sesión cerrada correctamente' });
     });
@@ -141,6 +149,7 @@ app.post('/login', async (req, res) => {
                 userEmail: user['correo'],
                 username: user['nombreUsuario']
             }
+            userMod.activeUser(true, req.session.user.userId);
 
             res.status(200).json({ success: true, message: 'Validación de usuario correcta', session: req.session.user });
             return;
@@ -235,7 +244,7 @@ app.post('/save-private-message', async (req, res) => {
             data['file'] = null;
         }
         if (data['destinatarioID']) {
-            let message = await chatMod.savePrivateMessage(data['message'], data['file'], req.session.user['userId'], data['destinatarioID']);
+            let message = await chatMod.savePrivateMessage(data['message'], data['file'], req.session.user['userId'], data['destinatarioID'], data['encriptacion']);
         }
 
         res.status(200).json({ data: 'almacenado correctamente' });

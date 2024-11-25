@@ -24,10 +24,10 @@ CREATE TABLE Usuario (
     foto			BLOB,
     puntos 			INT DEFAULT 0,
     tituloID        INT DEFAULT NULL,
+    actividad		BOOL DEFAULT(false),
     
     FOREIGN KEY (tituloID) REFERENCES Premio(premioID)    
 );
-
 
 CREATE TABLE Premio (
     premioID 		INT AUTO_INCREMENT PRIMARY KEY,
@@ -48,9 +48,9 @@ CREATE TABLE Recompensa (
 CREATE TABLE Contenido (
 	contenidoID		INT AUTO_INCREMENT PRIMARY KEY,
     texto			TEXT, 
-    archivo			LONGBLOB
+    archivo			LONGBLOB,
+    encriptacion	BOOL default(false)
 );
-
 
 CREATE TABLE Mensaje (
 	mensajeID		INT AUTO_INCREMENT PRIMARY KEY,

@@ -90,6 +90,12 @@ function showSearchList(array) {
         newUser.innerHTML = `<img src="Images/profile1.jpg" alt="Liam Brown">
                         <p>${element['nombreUsuario']}</p>
                             `
+
+        if (element.actividad == 1) {
+            newUser.innerHTML += `<div class="circle" style="background-color: rgb(0, 206, 0);"></div>`;
+        } else {
+            newUser.innerHTML += `<div class="circle" style="background-color: rgb(240, 0, 0);"></div>`;
+        }
         container.appendChild(newUser);
 
         newUser.addEventListener('click', (e) => {
@@ -152,6 +158,11 @@ function renderMessages(objUser, objMessage) {
     let messageContainer = document.querySelector(".chat-content .chat-messages");
 
     objMessage.forEach((m) => {
+        if (m.encriptacion == 1) {
+            // console.log(atob('cGVybyB3YXRhZm9r'));
+            m.texto = atob(m.texto)
+        }
+
         if (m.usuarioID == objUser['usuarioID']) {
             let container = document.createElement("div");
             container.setAttribute('class', 'message-container');
@@ -231,7 +242,15 @@ document.querySelector(".chat-input #send-message").addEventListener("click", fu
     if (message.lenght == 0) {
         return;
     }
-    console.log(message);
+    // console.log(message);
+
+    let encrypt = document.getElementById("checkboxInput");
+
+    if (encrypt.checked) {
+        message = btoa(message);
+    } else {
+        // console.log(' no encriptacion')
+    }
 
     socketData.socket.emit("chat", {
         username: socketData.username,
@@ -246,7 +265,8 @@ document.querySelector(".chat-input #send-message").addEventListener("click", fu
         body: JSON.stringify({
             message: message,
             file: null,
-            destinatarioID: destinatarioID
+            destinatarioID: destinatarioID,
+            encriptacion: encrypt.checked,
         }),
     });
     document.getElementById("message-input").value = "";
