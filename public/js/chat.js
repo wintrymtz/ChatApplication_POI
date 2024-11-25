@@ -27,9 +27,11 @@ let roomId = urlParams.get('roomId');
 const socket = io();
 
 const callButton = document.getElementById("call-btn");
-const recipientId = socketData.roomId;
+// const recipientId = socketData.roomId;
 
 callButton.addEventListener("click", () => {
+    const recipientId = socketData.roomId;
+
     if (recipientId) { // Comprueba si recipientId está definido
         window.location.href = `./videollamadav2.html?roomId=${recipientId}`; // Redirige con el ID en la URL
     } else {

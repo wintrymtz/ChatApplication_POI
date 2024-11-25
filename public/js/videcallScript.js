@@ -8,10 +8,10 @@ let channel;
 
 let queryString = window.location.search
 let urlParams = new URLSearchParams(queryString)
-let roomId = urlParams.get('room')
+let roomId = urlParams.get('roomId')
 // let roomId = "1";
 
-if (!roomId) {
+if (roomId == "1") {
     window.location = 'lobby.html'
 }
 
