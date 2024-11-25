@@ -574,3 +574,32 @@ BEGIN
 END$$
 DELIMITER ;
 
+
+
+
+-- Trigger para asignar las tareas a los udusarios de un grupo
+
+DELIMITER $$
+CREATE TRIGGER after_tarea_insert
+AFTER INSERT ON Tarea
+FOR EACH ROW
+BEGIN
+    -- Declarar variables
+    DECLARE creatorID INT;
+    
+    -- Obtener el creador del grupo de la tarea insertada
+    SELECT creadorID INTO creatorID
+    FROM Grupo
+    WHERE grupoID = NEW.grupoID;
+    
+    -- Insertar en Asignar_Tarea todos los usuarios del grupo, excepto el creador
+    INSERT INTO Asignar_Tarea (tareaID, usuarioID)
+    SELECT NEW.tareaID, usuarioID
+    FROM Usuario_Grupo
+    WHERE grupoID = NEW.grupoID
+    AND usuarioID != creatorID;
+END $$
+DELIMITER ;
+
+
+

@@ -9,17 +9,17 @@ app.use(express.json()); // Para soportar solicitudes con JSON
 const io = require("socket.io")(server);
 console.log('Servidor iniciado');
 
-const taskRoutes = require('./Modules/TaskRoutesModule.js')
 const db = require('./database.js');
 const userMod = require('./Modules/UserModule.js');
 const chatMod = require('./Modules/ChatModule.js');
 const groupMod = require('./Modules/GroupModule.js');
 const rewardsMod = require('./Modules/RewardsModule.js');
 const transporter = require('./Modules/mailServiceModule.js');
+const homeworkMod = require('./Modules/TaskRoutesModule.js')
 
-app.use(express.json());
-app.use('/tasks', taskRoutes);
-const PORT = process.env.PORT || 4000;
+
+// app.use('/tasks', taskRoutes);
+// const PORT = process.env.PORT || 4000;
 // app.listen(PORT, () => {
 //     console.log(`Server corriendo en el puerto ${PORT}`)
 // });
@@ -456,6 +456,66 @@ app.get('/checkGroupCreator', async (req, res) => {
         res.status(500).json({ success: false, message: "Error al verificar el creador del grupo" });
     }
 });
+
+
+
+// Solicitud para crear tarea
+app.post('/tasks/create', async (req, res) => {
+    const { instrucciones, puntosTarea, vencimiento, grupoID } = req.body;
+    try {
+        const result = await homeworkMod.createTask(instrucciones, puntosTarea, vencimiento, grupoID);
+        res.status(201).json({ success: true, message: 'Tarea creada con éxito', taskId: result.taskId });
+    } catch (error) {
+        res.status(500).json({ success: false, message: 'Error al crear tarea', error });
+    }
+});
+
+
+
+// // Solicitud para obtener todas las tareas
+// app.get('/tasks', async (req, res) => {
+//     try {
+//         const tasks = await homeworkMod.getAllTasks();
+//         res.status(200).json(tasks);
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: 'Error al obtener tareas', error });
+//     }
+// });
+
+// // Solicitud para calificar tarea
+// app.post('/tasks/rate', async (req, res) => {
+//     const { taskId, rating } = req.body;
+//     try {
+//         const success = await homeworkMod.rateTask(taskId, rating);
+//         if (success) {
+//             res.status(200).json({ success: true, message: 'Tarea calificada con éxito' });
+//         } else {
+//             res.status(404).json({ success: false, message: 'Tarea no encontrada' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: 'Error al calificar tarea', error });
+//     }
+// });
+
+// // Solicitud para subir archivo para una tarea
+// app.post('/tasks/upload', upload.single('file'), async (req, res) => {
+//     const { taskId } = req.body;
+//     if (!req.file) {
+//         return res.status(400).json({ success: false, message: 'No se subió ningún archivo' });
+//     }
+
+//     try {
+//         const success = await homeworkMod.uploadTaskFile(taskId, req.file.path);
+//         if (success) {
+//             res.status(200).json({ success: true, message: 'Archivo subido con éxito' });
+//         } else {
+//             res.status(404).json({ success: false, message: 'Tarea no encontrada' });
+//         }
+//     } catch (error) {
+//         res.status(500).json({ success: false, message: 'Error al subir archivo de tarea', error });
+//     }
+// });
+
 
 
 
