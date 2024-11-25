@@ -273,5 +273,51 @@ document.querySelector(".chat-input #send-message").addEventListener("click", fu
 
 });
 
+async function getHistory() {
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const response = await fetch("/get-history", {
+        method: "POST",
+        body: JSON.stringify({ id: 'test' }),
+        headers: myHeaders,
+    })
+    let res = await response.json();
+    // let user = res['data'][0];
+    // let messages = res['messages'];
+    console.log('historial', res);
+    renderHistory(res.data);
+}
+
+
+function renderHistory(contacts) {
+    let container = document.getElementById('contacts');
+    console.log('contactos', contacts)
+    contacts.forEach((contact) => {
+        let item = document.createElement('div');
+        item.classList.add('contact-item');
+        item.innerHTML = `<img src="Images/profile1.jpg" alt="Liam Brown">
+                            ${contact.nombreUsuario}`;
+        item.id = contact.usuarioID;
+
+        container.appendChild(item);
+
+        item.addEventListener('click', (e) => {
+            if (socketData.socket) {
+                socketData.socket.emit("leaveRoom", socketData.roomId);
+                let newIdRoom = createRoomId(socketData.id, e.currentTarget.id);
+                console.log('mi id es ' + socketData.id + ' y me intento conectar con el id: ' + e.currentTarget.id);
+                socketData.socket.emit("joinRoom", socketData.username, newIdRoom);
+                socketData.roomId = newIdRoom;
+                changeChat(e.currentTarget.id);
+                destinatarioID = e.currentTarget.id;
+            } else {
+                console.error("Socket no está definido o no está conectado.");
+            }
+        })
+    })
+}
+
+getHistory();
+
 
 getUsers();

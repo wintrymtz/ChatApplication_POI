@@ -10,18 +10,22 @@ SELECT * FROM Mensaje_Grupo;
 SELECT * FROM Tarea;
 SELECT * FROM Asignar_Tarea;
 
-SELECT u.usuarioID, nombreUsuario, correo, foto, actividad FROM Usuario u
-		INNER JOIN Usuario_Grupo ug ON ug.usuarioID = u.usuarioID
-        INNER JOIN 
-        
-        SELECT * FROM Usuario u
-		INNER JOIN Usuario_Grupo ug ON ug.usuarioID = u.usuarioID
-        INNER JOIN 
-
-SELECT * FROM Mensaje m
+DELIMITER //
+CREATE PROCEDURE CHAT_Historial(IN p_usuarioID INT)
+BEGIN
+SELECT u.nombreUsuario, g.grupoID, MAX(fecha) as ultima_fecha  FROM Mensaje m
 		INNER JOIN mensaje_grupo mg ON mg.mensajeID = m.mensajeID
         INNER JOIN Grupo g ON g.grupoID = mg.grupoID
-        WHERE m.usuarioID = 1 AND g.tipoGrupo = 'mensaje'
+        INNER JOIN Usuario_Grupo ug ON ug.grupoID = g.grupoID
+        INNER JOIN Usuario u ON u.usuarioID = ug.usuarioID
+        WHERE m.usuarioID = p_usuarioID AND g.tipoGrupo = 'mensaje' AND u.usuarioID != p_usuarioID
+        GROUP BY grupoID, u.nombreUsuario
+        ORDER BY ultima_fecha ASC
+        LIMIT 5;
+END //
+DELIMITER ;
+
+
         
 DELIMITER //
 CREATE PROCEDURE USUARIO_ObtenerHistorial(

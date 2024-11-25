@@ -253,6 +253,21 @@ app.post('/save-private-message', async (req, res) => {
     }
 });
 
+app.post('/get-history', async (req, res) => {
+    try {
+        let data = req.body;
+
+        let history = await chatMod.getHistory(req.session.user['userId']);
+
+        // console.log(data['data']);
+        // console.log(users);
+        res.status(200).json({ data: history });
+    } catch (error) {
+        console.log(error)
+    }
+
+});
+
 app.post('/save-group-message', async (req, res) => {
     try {
         let data = req.body;

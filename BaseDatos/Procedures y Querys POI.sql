@@ -292,6 +292,20 @@ declare _cantidad INT;
 END//
 DELIMITER ;
 
+DELIMITER //
+CREATE PROCEDURE CHAT_Historial(IN p_usuarioID INT)
+BEGIN
+SELECT u.nombreUsuario, u.usuarioID, g.grupoID, MAX(fecha) as ultima_fecha  FROM Mensaje m
+		INNER JOIN mensaje_grupo mg ON mg.mensajeID = m.mensajeID
+        INNER JOIN Grupo g ON g.grupoID = mg.grupoID
+        INNER JOIN Usuario_Grupo ug ON ug.grupoID = g.grupoID
+        INNER JOIN Usuario u ON u.usuarioID = ug.usuarioID
+        WHERE m.usuarioID = p_usuarioID AND g.tipoGrupo = 'mensaje' AND u.usuarioID != p_usuarioID
+        GROUP BY grupoID, u.nombreUsuario, u.usuarioID
+        ORDER BY ultima_fecha DESC
+        LIMIT 5;
+END //
+DELIMITER ;
 
 -- ---------------------------------------------------------------------------------------------------------------------
 -- -----------------------------Tabla de CONTENIDO----------------------------------------------------------------------
