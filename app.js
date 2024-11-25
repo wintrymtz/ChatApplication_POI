@@ -1,11 +1,15 @@
 const express = require("express");
 const path = require("path");
 const session = require('express-session');
+const multer = require('multer');
 
 const app = express();
 const server = require("http").createServer(app);
-app.use(express.json()); // Para soportar solicitudes con JSON
+app.use(express.json({ limit: '50mb' })); // Para soportar solicitudes con JSON
 
+// Configuración de Multer para almacenar el archivo en memoria
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 const io = require("socket.io")(server);
 console.log('Servidor iniciado');
 
@@ -60,6 +64,12 @@ io.on("connection", function (socket) {
         console.log(`${message.text} se envió a la sala ${roomId}`);
     });
 
+    socket.on("file", function (file, roomId) {
+        socket.broadcast.to(roomId).emit("file", file,);
+
+        // console.log(`${message.text} se envió a la sala ${roomId}`);
+    });
+
     socket.on("callUser", (data) => {
         io.to(data.to).emit("callIncoming", { from: data.from, signal: data.signal });
     });
@@ -75,7 +85,6 @@ io.on("connection", function (socket) {
 
 
 //SOLICITUDES
-
 
 app.get('/checkSession', (req, res) => {
     if (req.session.authenticated) {
@@ -231,6 +240,13 @@ app.post('/search-user-id', async (req, res) => {
 
         let message = await chatMod.getPrivateChat(user1[0]['usuarioID'], user2[0]['usuarioID']);
 
+        message.forEach((m) => {
+            if (m.archivo && Buffer.isBuffer(m.archivo)) {
+                const base64File = m.archivo.toString('base64');
+                m.archivo = base64File;
+            }
+        })
+
         // console.log(data['data']);
         // console.log(users);
         res.status(200).json({ data: user2, messages: message });
@@ -240,14 +256,21 @@ app.post('/search-user-id', async (req, res) => {
 
 });
 
-app.post('/save-private-message', async (req, res) => {
+app.post('/save-private-message', upload.single('file'), async (req, res) => {
     try {
         let data = req.body;
-        if (data['file'] === undefined) {
-            data['file'] = null;
+        let fileBuffer;
+        if (!req.body.buffer) {
+            fileBuffer = null;
+        } else {
+
+            fileBuffer = Buffer.from(req.body.buffer, 'base64');; // El archivo en formato binario
         }
+
+        console.log(data);
+
         if (data['destinatarioID']) {
-            let message = await chatMod.savePrivateMessage(data['message'], data['file'], req.session.user['userId'], data['destinatarioID'], data['encriptacion']);
+            let message = await chatMod.savePrivateMessage(data['message'], fileBuffer, req.session.user['userId'], data['destinatarioID'], data['encriptacion']);
         }
 
         res.status(200).json({ data: 'almacenado correctamente' });

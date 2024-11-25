@@ -5,6 +5,8 @@ let queryString = window.location.search;
 let urlParams = new URLSearchParams(queryString);
 let roomId = urlParams.get('roomId');
 
+let fileInput = document.getElementById("input-file");
+
 // async function getChatRoom(my_email, contact_email) {
 //     const myHeaders = new Headers();
 //     myHeaders.append("Content-Type", "application/json");
@@ -178,9 +180,78 @@ socket.on("callEnded", () => {
         renderMessage("other", message);
     });
 
+    socketData.socket.on("file", function (file) {
+        renderMessageFile("other", file);
+    });
+
+
+    fileInput.addEventListener('change', (event) => {
+        const file = event.target.files[0];
+        if (file) {
+            // Lee el archivo como un DataURL (Base64)
+            const reader = new FileReader();
+            reader.onloadend = function () {
+                // Obtén el contenido Base64 del archivo
+                const base64File = reader.result.split(',')[1]; // Elimina la parte 'data:...'
+
+                renderMessageFile('my', base64File);
+            };
+
+            reader.readAsDataURL(file); // Lee el archivo como DataURL (Base64)
+        }
+    });
+
+    function renderMessageFile(type, file) {
+        console.log('intentnaod renderizar:', file);
+        let messageContainer = app.querySelector(".chat-content .chat-messages");
+
+        if (type == "my") {
+            let container = document.createElement("div");
+            container.setAttribute('class', 'message-container');
+
+            let el = document.createElement("div");
+            // el.setAttribute("class", "message my-message");
+            el.setAttribute("class", "message sent");
+            el.innerHTML = `
+                <!-- <div class="name">You--</div> -->
+                 <div class="user-info">
+                      <img src ="data:;base64,${file}" width = 50%></img>
+                    </div>
+            `;
+            container.appendChild(el);
+            messageContainer.appendChild(container);
+        } else if (type == "other") {
+            console.log("se recivió: ", file);
+            let container = document.createElement("div");
+            container.setAttribute('class', 'message-container');
+
+            let el = document.createElement("div");
+            el.setAttribute("class", "message received");
+            el.innerHTML = `
+                  <div class="user-info">
+                            <img src ="data:;base64,${file.file}" width = 50%></img>
+                        </div>
+            `;
+
+            container.appendChild(el);
+            messageContainer.appendChild(container);
+
+        } else if (type == "update") {
+            let el = document.createElement("div");
+            el.setAttribute("class", "update");
+            el.innerText = message;
+            messageContainer.appendChild(el);
+        }
+
+        //scroll chat to end
+        messageContainer.scrollTop = messageContainer.scrollHeight - messageContainer.clientHeight;
+    }
+
     function renderMessage(type, message) {
         console.log('intentnaod renderizar:', message);
         let messageContainer = app.querySelector(".chat-content .chat-messages");
+
+
         if (type == "my") {
             let container = document.createElement("div");
             container.setAttribute('class', 'message-container');

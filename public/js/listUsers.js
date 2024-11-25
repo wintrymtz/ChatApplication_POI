@@ -3,8 +3,7 @@ import socketData from "./socket.js";
 let arrayContactos = document.getElementsByClassName('contact-item');
 let destinatarioID;
 let otherUserID;
-
-
+let fileInput = document.getElementById("input-file");
 // async function validateAuth() {
 //     fetch('/checkSession')
 //         .then(response => response.json())
@@ -24,6 +23,49 @@ let otherUserID;
 //             }
 //         });
 // }
+
+document.getElementById('upload-btn').addEventListener('click', () => {
+    fileInput.click();
+})
+
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0];
+    if (file) {
+        // Lee el archivo como un DataURL (Base64)
+        const reader = new FileReader();
+        reader.onloadend = function () {
+            // Obtén el contenido Base64 del archivo
+            const base64File = reader.result.split(',')[1]; // Elimina la parte 'data:...'
+
+            // Ahora envía el archivo en Base64 a través de JSON
+            fetch("/save-private-message", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: null,
+                    buffer: base64File, // Archivo en Base64
+                    destinatarioID: otherUserID,
+                    encriptacion: 0,
+                }),
+            }).then(response => response.json())
+                .then(data => {
+                    console.log("Archivo enviado correctamente", data);
+                })
+                .catch(error => {
+                    console.error("Error al enviar el archivo", error);
+                });
+
+            socketData.socket.emit("file", {
+                file: base64File,
+            }, socketData.roomId);
+        };
+
+        reader.readAsDataURL(file); // Lee el archivo como DataURL (Base64)
+    }
+});
+
 
 function getUsers() {
     // let response = await fetch();
@@ -173,6 +215,7 @@ function renderMessages(objUser, objMessage) {
             m.texto = atob(m.texto)
         }
 
+
         if (m.usuarioID == objUser['usuarioID']) {
             let container = document.createElement("div");
             container.setAttribute('class', 'message-container');
@@ -186,6 +229,17 @@ function renderMessages(objUser, objMessage) {
                         </div>
                         <p>${m.texto}</p>
             `;
+
+            if (m.archivo !== null) {
+                el.innerHTML = `
+                <div class="user-info">
+                          <span class="message-username">${objUser.nombreUsuario}</span>
+                          <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                      </div>
+                      <img src ="data:;base64,${m.archivo}" width = 50%></img>
+          `;
+            }
+
 
             container.appendChild(el);
             messageContainer.appendChild(container);
@@ -203,6 +257,14 @@ function renderMessages(objUser, objMessage) {
                         </div>
                         <p>${m.texto}</p>
             `;
+            if (m.archivo !== null) {
+                el.innerHTML = `
+                <div class="user-info">
+                          <img src="Images/profile-genius.jpg" alt="Code Genius" class="message-icon">
+                      </div>
+                      <img src ="data:;base64,${m.archivo}" width = 50%></img>
+          `;
+            }
             container.appendChild(el);
             messageContainer.appendChild(container);
         }
@@ -267,6 +329,7 @@ document.querySelector(".chat-input #send-message").addEventListener("click", fu
         text: message
     }, socketData.roomId);
 
+
     fetch("/save-private-message", {
         method: "POST",
         headers: {
@@ -274,7 +337,7 @@ document.querySelector(".chat-input #send-message").addEventListener("click", fu
         },
         body: JSON.stringify({
             message: message,
-            file: null,
+            buffer: null,
             destinatarioID: destinatarioID,
             encriptacion: encrypt.checked,
         }),
