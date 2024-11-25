@@ -31,7 +31,7 @@ const recipientId = 'user123';
 
 callButton.addEventListener("click", () => {
     if (recipientId) { // Comprueba si recipientId está definido
-        window.location.href = `./VIDEOLLAMADA 3.0.HTML?roomId=${recipientId}`; // Redirige con el ID en la URL
+        window.location.href = `./videollamadav2.html?roomId=${recipientId}`; // Redirige con el ID en la URL
     } else {
         console.error("Error: No se ha seleccionado un destinatario para la llamada.");
     }
@@ -235,25 +235,25 @@ document.querySelectorAll('.user-item').forEach(item => {
     });
 });
 
-window.addEventListener("DOMContentLoaded", async () => {
-    // Extrae roomId de la URL
-    let queryString = window.location.search;
-    let urlParams = new URLSearchParams(queryString);
-    let roomId = urlParams.get('roomId');
+// window.addEventListener("DOMContentLoaded", async () => {
+//     // Extrae roomId de la URL
+//     let queryString = window.location.search;
+//     let urlParams = new URLSearchParams(queryString);
+//     let roomId = urlParams.get('roomId');
 
-    // Comprueba si roomId está definido antes de continuar
-    if (!roomId) {
-        console.error("No se encontró el roomId en la URL.");
-        return;
-    }
+//     // Comprueba si roomId está definido antes de continuar
+//     if (!roomId) {
+//         console.error("No se encontró el roomId en la URL.");
+//         return;
+//     }
 
-    // Configura la videollamada
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-    document.getElementById("local-video").srcObject = stream;
+//     // Configura la videollamada
+//     const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+//     document.getElementById("local-video").srcObject = stream;
 
-    // Configura los eventos y conexión RTCPeerConnection
-    initVideoCall(roomId, stream); // Define la función `initVideoCall` para gestionar la conexión
-});
+//     // Configura los eventos y conexión RTCPeerConnection
+//     initVideoCall(roomId, stream); // Define la función `initVideoCall` para gestionar la conexión
+// });
 
 
 
@@ -271,10 +271,10 @@ locationButton.addEventListener('click', () => {
     // Verifica si el navegador soporta la API paara obtener la ubicación
     if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-            
+
             const latitude = position.coords.latitude;
             const longitude = position.coords.longitude;
-            
+
             // Generamos el enlace de Google Maps con la ubicación
             const googleMapsLink = `https://www.google.com/maps?q=${latitude},${longitude}`;
             messageInput.value = googleMapsLink;

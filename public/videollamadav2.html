@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,27 +8,28 @@
     <link rel="stylesheet" href="css/VIDEOLLAMADA 3.0.CSS">
     <script src="https://cdn.jsdelivr.net/npm/agora-rtm-sdk@1.5.1"></script>
 </head>
+
 <body>
     <!-- Contenedor principal para la videollamada -->
     <div class="videocall-container">
-       <!-- Video del usuario local -->
-    <div class="video-box local-video">
-        <video id="local-video" autoplay muted></video>
-        <div class="username-tag">Tu Nombre</div>
-    </div>
-    <!-- Video del usuario remoto -->
-    <div class="video-box remote-video">
-        <video id="remote-video" autoplay></video>
-        <div class="username-tag">Nombre del Contacto</div>
-    </div>
-        
+        <!-- Video del usuario local -->
+        <div class="video-box local-video">
+            <video id="user-1" autoplay muted></video>
+            <div class="username-tag">Tu Nombre</div>
+        </div>
+        <!-- Video del usuario remoto -->
+        <div class="video-box remote-video">
+            <video id="user-2" autoplay></video>
+            <div class="username-tag">Nombre del Contacto</div>
+        </div>
+
     </div>
 
     <!-- Controles de la videollamada -->
     <div class="controls">
         <!-- Botón de silenciar/activar micrófono -->
-        <button class="control-btn" id="mute-btn">
-            <img src="Images/microfono.png" alt="Activar/desactivar micrófono" class="icon mic-icon">
+        <button class="control-btn" id="mic-btn">
+            <img src="/Images/microfono.png" alt="Activar/desactivar micrófono" class="icon mic-icon">
         </button>
 
         <!-- Botón de activar/desactivar cámara -->
@@ -45,4 +47,5 @@
     <script type="module" src="js/videcallScript.js"></script>
 
 </body>
+
 </html>
