@@ -421,8 +421,26 @@ app.get('/get-user-email', (req, res) => {
 
 
 
+//Solicitud para obtener el id del creador del grupo
+app.get('/checkGroupCreator', async (req, res) => {
+    const groupID = req.query.groupID;
+    const userID = req.session.user.userId;
 
+    try {
+        const creatorID = await groupMod.getGroupCreator(groupID);
+        const isCreator = creatorID === userID;
 
+        // Responder con el estado y los IDs involucrados
+        res.json({
+            isCreator: isCreator,
+            userID: userID,
+            creatorID: creatorID
+        });
+    } catch (error) {
+        console.error("Error al verificar el creador del grupo:", error);
+        res.status(500).json({ success: false, message: "Error al verificar el creador del grupo" });
+    }
+});
 
 
 

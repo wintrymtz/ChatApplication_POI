@@ -55,6 +55,22 @@ const groupMod = {
             throw error; // Lanzar el error para manejarlo en la ruta si es necesario
         }
     },
+
+    getGroupCreator: async function(groupID) {
+        try {
+            const query = 'SELECT creadorID FROM Grupo WHERE grupoID = ?';
+            const [rows] = await db.execute(query, [groupID]);
+
+            // Muestra el resultado de la consulta en consola para verificar
+            console.log("Resultado de la consulta getGroupCreator:", rows);
+
+            // Si rows tiene datos, devuelve el creadorID
+            return rows[0]?.creadorID || null;  // Devuelve null si no hay datos
+        } catch (error) {
+            console.error("Error al obtener el creador del grupo:", error);
+            throw error;
+        }
+    }
 }
 
 module.exports = groupMod;

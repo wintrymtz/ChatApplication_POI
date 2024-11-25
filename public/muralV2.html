@@ -159,6 +159,36 @@
         </div>
     </div>
 
+    <button id="redirectBtn" style="display:none;" onclick="crearTarea()">Ir a la otra página</button>
+
+    <script>
+        // Recupera el ID del grupo del LocalStorage
+        const groupID = parseInt(localStorage.getItem("grupoID"), 10);
+
+    fetch(`/checkGroupCreator?groupID=${groupID}`)
+        .then(response => response.json())
+        .then(data => {
+            console.log("Respuesta del servidor:", data);  // Muestra todos los datos en consola
+        
+            if (data.isCreator) {
+                document.getElementById("redirectBtn").style.display = "block";
+            } else {
+                console.log("El usuario no es el creador del grupo.");
+            }
+            
+            // Mostrar los IDs en la consola para verificar
+            console.log("userID:", data.userID);
+            console.log("creatorID:", data.creatorID);
+        })
+        .catch(error => {
+            console.error("Error al verificar creador del grupo:", error);
+        });
+    
+    function crearTarea() {
+        window.location.href = "TAREA 2.HTML"; 
+    }
+    </script>
+
     </div>
     <script type="module" src="socket.io/socket.io.js"></script>
     <script type="module" src="js/session.js"></script>

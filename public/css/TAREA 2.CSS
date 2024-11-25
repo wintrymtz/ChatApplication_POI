@@ -66,13 +66,14 @@ body {
     background-color: #f4f5fa;
     padding: 20px;
     border-radius: 10px;
-    margin: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
     color: #2b3a67;
-    text-align: center;
+    text-align: left;
+    margin-top: 3%;
+    margin-bottom: 5%;
 }
 
 .task-form {
@@ -91,7 +92,8 @@ input, textarea {
     border-radius: 10px;
     border: 2px solid #2b3a67;
     font-size: 16px;
-    width: 100%;
+    width: 80%;
+    align-items: center;
 }
 
 button {
@@ -103,6 +105,9 @@ button {
     font-size: 16px;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 80%;
+    align-items: center;
+    font-weight: bold;
 }
 
 button:hover {
@@ -115,4 +120,8 @@ button:hover {
 
 #submit-btn {
     background-color: #ff69b4;
+}
+
+#submit-btn:hover {
+    background-color: #8a2256;
 }
